@@ -141,7 +141,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
               {data.title}
             </Typography>
             <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
-              {data.total_count.toLocaleString()} records • {data.showing_count} shown
+              <strong>{data.total_count.toLocaleString()}</strong> records • <strong>{data.showing_count}</strong> shown
             </Typography>
           </Box>
           <Chip
@@ -218,7 +218,8 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
                             textAlign: 'center',
                           }}
                         >
-                          +{data.columns.length - 4}
+                          {/* +{data.columns.length - 4} */}
+                          ...
                         </TableCell>
                       )}
                     </TableRow>
@@ -277,16 +278,8 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
 
             <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.7rem' }}>
-                Showing {Math.min(5, data.data.length)} of {data.total_count.toLocaleString()} records
+                Showing <strong>{Math.min(5, data.data.length)}</strong> of <strong>{data.total_count.toLocaleString()}</strong> records
               </Typography>
-              {data.has_more && (
-                <Chip
-                  label="More available"
-                  size="small"
-                  variant="outlined"
-                  sx={{ fontSize: '0.65rem', height: '20px' }}
-                />
-              )}
             </Box>
           </>
         ) : (
@@ -360,10 +353,11 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
               <Typography 
                 variant="h6" 
                 sx={{ 
-                  fontWeight: 700,
+                  fontWeight: 900,
                   color: isDelete ? '#dc2626' : '#ea580c',
-                  fontSize: '1.2rem',
+                  fontSize: '1.4rem',
                   lineHeight: 1.2,
+                  textShadow: '0 1px 2px rgba(0,0,0,0.1)',
                 }}
               >
                 {data.count?.toLocaleString() || '0'}
@@ -900,12 +894,12 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
                       </Typography>
                     ) : (
                       <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.75rem' }}>
-                        Records older than {table.age_days} days: {table.age_based_count?.toLocaleString() || '0'}
+                        Records older than {table.age_days} days: <Typography component="span" sx={{ fontWeight: 900, color: '#f59e0b', fontSize: '0.8rem' }}>{table.age_based_count?.toLocaleString() || '0'}</Typography>
                       </Typography>
                     )}
                   </Box>
                   <Box sx={{ textAlign: 'right' }}>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#0ea5e9', fontSize: '0.9rem' }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 900, color: '#0ea5e9', fontSize: '1.0rem' }}>
                       {table.total_records?.toLocaleString() || '0'}
                     </Typography>
                     <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.65rem' }}>
@@ -948,12 +942,12 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
                       </Typography>
                     ) : (
                       <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.75rem' }}>
-                        Records older than {table.age_days} days: {table.age_based_count?.toLocaleString() || '0'}
+                        Records older than {table.age_days} days: <Typography component="span" sx={{ fontWeight: 900, color: '#f59e0b', fontSize: '0.8rem' }}>{table.age_based_count?.toLocaleString() || '0'}</Typography>
                       </Typography>
                     )}
                   </Box>
                   <Box sx={{ textAlign: 'right' }}>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#d97706', fontSize: '0.9rem' }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 900, color: '#d97706', fontSize: '1.0rem' }}>
                       {table.total_records?.toLocaleString() || '0'}
                     </Typography>
                     <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.65rem' }}>

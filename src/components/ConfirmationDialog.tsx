@@ -56,7 +56,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
     const { table, count, dateRange } = operationData;
     const action = isDelete ? 'permanently delete' : 'archive';
     
-    return `You are about to ${action} ${count || 0} records${table ? ` from ${table}` : ''}${dateRange ? ` (${dateRange})` : ''}.`;
+    return `You are about to ${action} **${count || 0}** records${table ? ` from ${table}` : ''}${dateRange ? ` (${dateRange})` : ''}.`;
   };
 
   const getWarning = () => {
