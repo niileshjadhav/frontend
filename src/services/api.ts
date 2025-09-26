@@ -307,6 +307,8 @@ class ApiService {
     const response = await this.request<{regions: Record<string, boolean>, available_regions: string[]}>('/regions/status');
     return response.regions;
   }
+
+
 }
 
 export const apiService = new ApiService();
