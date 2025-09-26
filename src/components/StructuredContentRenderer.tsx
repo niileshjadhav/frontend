@@ -4,18 +4,12 @@ import {
   Typography,
   Card,
   CardContent,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   Chip,
   Alert,
   LinearProgress,
 } from '@mui/material';
 import {
   TrendingUp as TrendingUpIcon,
-  Storage as StorageIcon,
   QueryStats as QueryStatsIcon,
   Archive as ArchiveIcon,
   Delete as DeleteIcon,
@@ -107,191 +101,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
     </Card>
   );
 
-  const renderDataTable = (data: any) => (
-    <Card 
-      elevation={1} 
-      sx={{ 
-        backgroundColor: '#fefce8',
-        border: '1px solid #f59e0b',
-        borderRadius: '12px',
-        width: '100%',
-        maxWidth: '100%',
-        overflowX: 'hidden',
-      }}
-    >
-      <CardContent sx={{ p: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-          <Box
-            sx={{
-              width: 32,
-              height: 32,
-              borderRadius: '10px',
-              backgroundColor: '#f59e0b',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mr: 1.5,
-              flexShrink: 0,
-            }}
-          >
-            <StorageIcon sx={{ color: 'white', fontSize: 16 }} />
-          </Box>
-          <Box sx={{ flex: 1, minWidth: 0 }}> {/* minWidth: 0 allows text to truncate */}
-            <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
-              {data.title}
-            </Typography>
-            <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
-              <strong>{data.total_count.toLocaleString()}</strong> records • <strong>{data.showing_count}</strong> shown
-            </Typography>
-          </Box>
-          <Chip
-            label={data.table_name}
-            size="small"
-            sx={{
-              background: 'rgba(245, 158, 11, 0.1)',
-              color: '#d97706',
-              fontWeight: 600,
-              fontSize: '0.7rem',
-              flexShrink: 0, // Prevent chip from shrinking
-            }}
-          />
-        </Box>
-
-        {data.data && data.data.length > 0 ? (
-          <>
-            <Box 
-              sx={{ 
-                width: '100%',
-                overflowX: 'auto',
-                border: '1px solid rgba(148, 163, 184, 0.2)',
-                borderRadius: '8px',
-                backgroundColor: 'white',
-                '&::-webkit-scrollbar': {
-                  height: '6px',
-                },
-                '&::-webkit-scrollbar-track': {
-                  background: '#f1f5f9',
-                  borderRadius: '3px',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  background: '#cbd5e1',
-                  borderRadius: '3px',
-                  '&:hover': {
-                    background: '#94a3b8',
-                  },
-                },
-              }}
-            >
-              <Box sx={{ minWidth: '320px' }}> {/* Minimum width for table readability */}
-                <Table size="small" sx={{ tableLayout: 'fixed' }}>
-                  <TableHead>
-                    <TableRow>
-                      {data.columns.slice(0, 4).map((column: string, index: number) => ( // Limit to 4 columns max
-                        <TableCell 
-                          key={column}
-                          sx={{
-                            fontWeight: 700,
-                            backgroundColor: '#f8fafc',
-                            color: '#374151',
-                            borderBottom: '2px solid rgba(148, 163, 184, 0.2)',
-                            textTransform: 'capitalize',
-                            fontSize: '0.75rem',
-                            width: index === 0 ? '80px' : 'auto', // First column narrower (usually ID)
-                            padding: '8px 6px',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                          }}
-                        >
-                          {column.replace(/_/g, ' ')}
-                        </TableCell>
-                      ))}
-                      {data.columns.length > 4 && (
-                        <TableCell 
-                          sx={{
-                            fontWeight: 700,
-                            backgroundColor: '#f8fafc',
-                            color: '#374151',
-                            fontSize: '0.75rem',
-                            width: '40px',
-                            padding: '8px 6px',
-                            textAlign: 'center',
-                          }}
-                        >
-                          {/* +{data.columns.length - 4} */}
-                          ...
-                        </TableCell>
-                      )}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {data.data.slice(0, 5).map((row: any, rowIndex: number) => ( // Limit to 5 rows
-                      <TableRow 
-                        key={rowIndex}
-                        sx={{
-                          '&:nth-of-type(odd)': {
-                            backgroundColor: 'rgba(248, 250, 252, 0.8)',
-                          },
-                          '&:hover': {
-                            backgroundColor: 'rgba(245, 158, 11, 0.05)',
-                          },
-                        }}
-                      >
-                        {data.columns.slice(0, 4).map((column: string, colIndex: number) => (
-                          <TableCell 
-                            key={column}
-                            sx={{
-                              fontSize: '0.7rem',
-                              color: '#374151',
-                              padding: '6px 6px',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap',
-                              maxWidth: colIndex === 0 ? '80px' : '120px',
-                            }}
-                          >
-                            {typeof row[column] === 'object' 
-                              ? JSON.stringify(row[column]).substring(0, 20) + '...'
-                              : String(row[column] || '—').substring(0, 30) // Truncate long values
-                            }
-                          </TableCell>
-                        ))}
-                        {data.columns.length > 4 && (
-                          <TableCell 
-                            sx={{
-                              fontSize: '0.7rem',
-                              color: '#94a3b8',
-                              padding: '6px 6px',
-                              textAlign: 'center',
-                              fontStyle: 'italic',
-                            }}
-                          >
-                            ...
-                          </TableCell>
-                        )}
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Box>
-            </Box>
-
-            <Box sx={{ mt: 1.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.7rem' }}>
-                Showing <strong>{Math.min(5, data.data.length)}</strong> of <strong>{data.total_count.toLocaleString()}</strong> records
-              </Typography>
-            </Box>
-          </>
-        ) : (
-          <Box sx={{ textAlign: 'center', py: 4 }}>
-            <Typography variant="body1" color="textSecondary">
-              No data to display
-            </Typography>
-          </Box>
-        )}
-      </CardContent>
-    </Card>
-  );
+  // renderDataTable function removed - no longer showing actual table records
 
   const renderConfirmationCard = (data: any) => {
     const isDelete = data.operation?.toLowerCase().includes('delete');
@@ -967,8 +777,6 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
   switch (content.type) {
     case 'stats_card':
       return renderStatsCard(content);
-    case 'data_table':
-      return renderDataTable(content);
     case 'database_overview':
       return renderDatabaseOverviewCard(content);
     case 'confirmation_card':
