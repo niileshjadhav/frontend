@@ -171,7 +171,6 @@ class ApiService {
 
     this.refreshPromise = (async () => {
       try {
-        console.log('Attempting token refresh...');
         const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
           method: 'POST',
           headers: {
@@ -187,7 +186,6 @@ class ApiService {
         }
 
         const data: LoginResponse = await response.json();
-        console.log('Token refresh successful');
         this.setToken(data.access_token);
         this.setUserInfo({
           username: data.user_info.username,
@@ -257,7 +255,6 @@ class ApiService {
     try {
       // If token is expired or about to expire, try to refresh
       if (this.isTokenExpired()) {
-        console.log('Token expired or expiring soon, attempting refresh...');
         await this.refreshToken();
       }
       

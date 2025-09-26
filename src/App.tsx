@@ -57,25 +57,19 @@ function App() {
       try {
         // Check if we have stored authentication data
         if (apiService.hasStoredAuth()) {
-          console.log('Found stored auth, validating session...');
           const isValid = await apiService.validateSession();
           
           if (isValid) {
             const userInfo = apiService.getUserInfo();
             if (userInfo) {
-              console.log('Session restored for user:', userInfo.username);
               setUserInfo(userInfo);
             }
-          } else {
-            console.log('Session validation failed');
           }
         } else {
-          console.log('No stored authentication found');
           // Check if we have stored user info from previous session
           const storedUserInfo = apiService.getUserInfo();
           if (storedUserInfo) {
             // We have user info but no token, session expired
-            console.log('Clearing expired session data');
             apiService.clearSession();
           }
         }
