@@ -7,6 +7,7 @@ import {
   Chip,
   Alert,
   LinearProgress,
+  Button,
 } from '@mui/material';
 import {
   TrendingUp as TrendingUpIcon,
@@ -24,11 +25,8 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
 
   const renderStatsCard = (data: any) => (
     <Card 
-      elevation={1} 
+      elevation={0}
       sx={{ 
-        backgroundColor: '#f0f9ff',
-        border: '1px solid #0ea5e9',
-        borderRadius: '12px',
         maxWidth: '350px',
       }}
     >
@@ -52,9 +50,6 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
                   p: 1.2,
                   borderRadius: '6px',
                   backgroundColor: stat.highlight ? '#f8fafc' : '#ffffff',
-                  border: stat.highlight 
-                    ? '1px solid #0ea5e9'
-                    : '1px solid #e2e8f0',
                   textAlign: 'center',
                 }}
               >
@@ -90,137 +85,115 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
 
     return (
       <Card 
-        elevation={1} 
+        elevation={0} 
         sx={{ 
-          backgroundColor: isDelete ? '#fef2f2' : '#fff7ed',
-          border: `1px solid ${isDelete ? '#ef4444' : '#f97316'}`,
+          backgroundColor: '#ffffff',
           borderRadius: '12px',
-          maxWidth: '350px',
+          maxWidth: '400px',
       }}
     >
-      <CardContent sx={{ p: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-          <Box
-            sx={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              backgroundColor: isDelete ? '#ef4444' : '#f97316',
-              mr: 1.5,
-              mt: 0.5,
-            }}
-          />
-          <Box>
-            <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
-              {data.title}
-            </Typography>
-            <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
-              {isDelete ? 'Permanent deletion' : 'Moving to archive'}
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mb: 1.5 }}>
-          <Box sx={{ flex: '1 1 auto' }}>
-            <Box
-              sx={{
-                p: 1.2,
-                borderRadius: '6px',
-                backgroundColor: isDelete ? '#fef2f2' : '#fff7ed',
-                border: `1px solid ${isDelete ? '#ef4444' : '#f97316'}`,
-                textAlign: 'center',
-              }}
-            >
-              <Typography variant="body2" sx={{ color: '#64748b', mb: 0.25, fontWeight: 500, fontSize: '0.75rem' }}>
-                Records to {isDelete ? 'delete' : 'archive'}
-              </Typography>
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  fontWeight: 900,
-                  color: isDelete ? '#dc2626' : '#ea580c',
-                  fontSize: '1.4rem',
-                  lineHeight: 1.2,
-                  textShadow: '0 1px 2px rgba(0,0,0,0.1)',
-                }}
-              >
-                {data.count?.toLocaleString() || '0'}
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-        
-        {isDelete && (
-          <Alert 
-            severity="error" 
+      <CardContent sx={{ p: 3, textAlign: 'center' }}>
+        {/* Large number display */}
+        <Box
+          sx={{
+            border: '2px solid #f87171',
+            borderRadius: '8px',
+            py: 2,
+            px: 6,
+            mb: 2,
+            backgroundColor: '#ffffff',
+            width: '100%',
+            maxWidth: '320px',
+            mx: 'auto',
+          }}
+        >
+          <Typography 
+            variant="h2" 
             sx={{ 
-              borderRadius: '10px',
-              backgroundColor: '#fef2f2',
-              border: '1px solid #ef4444',
-              mb: 1.5,
+              fontWeight: 700,
+              color: '#dc2626',
+              fontSize: '2.5rem',
+              lineHeight: 1,
+              mb: 0.5,
             }}
           >
-            <Typography sx={{ fontWeight: 600 }}>
-              ⚠️ This action cannot be undone!
-            </Typography>
-          </Alert>
+            {data.count?.toLocaleString() || '0'}
+          </Typography>
+          <Typography variant="body1" sx={{ color: '#374151', fontWeight: 500, fontSize: '1rem' }}>
+            Records to {isDelete ? 'delete' : 'archive'}
+          </Typography>
+        </Box>
+
+        {/* Instructions */}
+        <Typography variant="body2" sx={{ color: '#747880ff', mb: 3, fontSize: '0.75rem' }}>
+          {data.instructions || `Click "CONFIRM ${isDelete ? 'DELETE' : 'ARCHIVE'}" to proceed or "CANCEL" to abort.`}
+        </Typography>
+        
+        {/* Delete warning */}
+        {isDelete && (
+          <Typography sx={{ fontWeight: 600, fontSize: '0.85rem', color: '#b91c1c', mb: 2 }}>
+              This action cannot be undone!
+          </Typography>
         )}
 
-        <Box sx={{ textAlign: 'center', mt: 1.5 }}>
-          <Typography variant="body2" sx={{ color: '#64748b', mb: 1, fontSize: '0.8rem' }}>
-            {data.instructions || `Click below to confirm or cancel this ${isDelete ? 'deletion' : 'archive'} operation.`}
-          </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, flexWrap: 'wrap' }}>
-            <Chip
-              label={`CONFIRM ${isDelete ? 'DELETE' : 'ARCHIVE'}`}
-              size="small"
-              clickable
-              onClick={() => onSuggestionClick?.(`CONFIRM ${isDelete ? 'DELETE' : 'ARCHIVE'}`)}
-              sx={{
-                backgroundColor: isDelete ? '#fef2f2' : '#fff7ed',
-                color: isDelete ? '#dc2626' : '#ea580c',
-                fontWeight: 600,
-                fontSize: '0.7rem',
-                border: `1px solid ${isDelete ? '#ef4444' : '#f97316'}`,
-                cursor: 'pointer',
-                '&:hover': {
-                  backgroundColor: isDelete ? '#fee2e2' : '#fed7aa',
-                  transform: 'translateY(-1px)',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-                },
-                transition: 'all 0.2s ease-in-out',
-              }}
-            />
-            <Chip
-              label="CANCEL"
-              size="small"
-              clickable
-              onClick={() => onSuggestionClick?.('CANCEL')}
-              sx={{
+        {/* Action buttons */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => onSuggestionClick?.(`CONFIRM ${isDelete ? 'DELETE' : 'ARCHIVE'}`)}
+            sx={{
+              backgroundColor: '#dc2626',
+              color: '#ffffff',
+              fontWeight: 500,
+              fontSize: '0.9rem',
+              px: 3,
+              py: 1,
+              borderRadius: '6px',
+              textTransform: 'none',
+              minWidth: '160px',
+              '&:hover': {
+                backgroundColor: '#b91c1c',
+                transform: 'translateY(-1px)',
+              },
+              transition: 'all 0.2s ease-in-out',
+            }}
+          >
+            CONFIRM {isDelete ? 'DELETE' : 'ARCHIVE'}
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => onSuggestionClick?.('CANCEL')}
+            sx={{
+              backgroundColor: '#ffffff',
+              color: '#6b7280',
+              fontWeight: 500,
+              fontSize: '0.9rem',
+              px: 3,
+              py: 1,
+              borderRadius: '6px',
+              textTransform: 'none',
+              minWidth: '100px',
+              border: '1px solid #d1d5db',
+              '&:hover': {
                 backgroundColor: '#f9fafb',
-                color: '#6b7280',
-                fontWeight: 600,
-                fontSize: '0.7rem',
-                border: '1px solid #d1d5db',
-                cursor: 'pointer',
-                '&:hover': {
-                  backgroundColor: '#f3f4f6',
-                  transform: 'translateY(-1px)',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-                },
-                transition: 'all 0.2s ease-in-out',
-              }}
-            />
-          </Box>
+                borderColor: '#9ca3af',
+                transform: 'translateY(-1px)',
+              },
+              transition: 'all 0.2s ease-in-out',
+            }}
+          >
+            CANCEL
+          </Button>
         </Box>
-        </CardContent>
-      </Card>
+      </CardContent>
+    </Card>
     );
   };
 
   const renderSuccessCard = (data: any) => (
     <Card 
-      elevation={1} 
+      elevation={0} 
       sx={{ 
         backgroundColor: '#f0fdf4',
         border: '1px solid #00A9CE',
@@ -282,9 +255,9 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
 
   const renderCapabilitiesCard = (data: any) => (
     <Card 
-      elevation={1} 
+      elevation={0} 
       sx={{ 
-        backgroundColor: '#fef3c7',
+        backgroundColor: 'transparent',
         border: '1px solid #f59e0b',
         borderRadius: '12px',
         maxWidth: '450px',
@@ -325,14 +298,13 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
                   sx={{
                     p: 1.5,
                     borderRadius: '8px',
-                    backgroundColor: '#ffffff',
+                    backgroundColor: 'transparent',
                     border: '1px solid rgba(245, 158, 11, 0.2)',
                     transition: 'all 0.2s ease-in-out',
                     '&:hover': {
-                      backgroundColor: '#fffbeb',
+                      backgroundColor: 'rgba(245, 158, 11, 0.1)',
                       borderColor: '#f59e0b',
                       transform: 'translateY(-1px)',
-                      boxShadow: '0 2px 8px rgba(245, 158, 11, 0.15)',
                     },
                   }}
                 >
@@ -369,7 +341,6 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
                                 '&:hover': {
                                   backgroundColor: 'rgba(245, 158, 11, 0.2)',
                                   transform: 'translateY(-1px)',
-                                  boxShadow: '0 2px 6px rgba(245, 158, 11, 0.2)',
                                 },
                                 transition: 'all 0.2s ease-in-out',
                               }}
@@ -406,7 +377,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
 
   const renderConversationalCard = (data: any) => (
     <Card 
-      elevation={1} 
+      elevation={0} 
       sx={{ 
         backgroundColor: '#f0f9ff',
         border: '1px solid #3b82f6',
@@ -453,7 +424,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
 
   const renderErrorCard = (data: any) => (
     <Card 
-      elevation={1} 
+      elevation={0} 
       sx={{ 
         backgroundColor: '#fef2f2',
         border: '1px solid #ef4444',
@@ -528,7 +499,6 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
                     '&:hover': {
                       backgroundColor: '#fee2e2',
                       transform: 'translateY(-1px)',
-                      boxShadow: '0 2px 8px rgba(220, 38, 38, 0.15)',
                     },
                     transition: 'all 0.2s ease-in-out',
                   }}
@@ -544,7 +514,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
 
   const renderCancelledCard = (data: any) => (
     <Card 
-      elevation={1} 
+      elevation={0} 
       sx={{ 
         backgroundColor: '#f9fafb',
         border: '1px solid #6b7280',
@@ -595,7 +565,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
 
   const renderDatabaseOverviewCard = (data: any) => (
     <Card 
-      elevation={1} 
+      elevation={0} 
       sx={{ 
         backgroundColor: '#f0f9ff',
         border: '1px solid #0ea5e9',

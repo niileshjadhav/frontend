@@ -410,10 +410,11 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
             }}
             title="Restart chat"
             sx={{
-              backgroundColor: 'rgba(37, 99, 235, 0.1)',
+              backgroundColor: 'rgba(42, 79, 160, 0.1)',
+              borderRadius: '5px',
               color: 'primary.main',
               '&:hover': {
-                backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                backgroundColor: 'rgba(42, 79, 160, 0.2)',
               },
             }}
           >
@@ -449,28 +450,28 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                 display: 'flex',
                 justifyContent: message.isBot ? 'flex-start' : 'flex-end',
                 mb: 2,
-                width: '100%', // Ensure full width usage
+                width: '100%',
               }}
             >
               <Paper
                 elevation={0}
                 sx={{
-                  maxWidth: message.isBot ? '95%' : '85%', // Bot messages can be wider for tables
-                  minWidth: message.isBot && message.structuredContent ? '300px' : 'auto', // Minimum width for structured content
-                  width: message.isBot && message.structuredContent ? '100%' : 'auto', // Full width for structured content
+                  maxWidth: message.isBot ? '95%' : '85%',
+                  minWidth: message.isBot && message.structuredContent ? '300px' : 'auto',
+                  width: message.isBot && message.structuredContent ? '100%' : 'auto',
                   p: 2,
                   background: message.isBot 
-                    ? 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
+                    ? 'transparent'
                     : '#00A9CE',
-                  color: message.isBot ? 'text.primary' : 'white',
+                  color: message.isBot ? '#000000' : 'white',
                   borderRadius: message.isBot ? '20px 20px 20px 6px' : '20px 20px 6px 20px',
                   border: message.isBot 
-                    ? '1px solid rgba(148, 163, 184, 0.2)'
+                    ? 'none'
                     : 'none',
                   boxShadow: message.isBot 
-                    ? '0 2px 12px rgba(0, 0, 0, 0.08)'
+                    ? 'none'
                     : '0 4px 20px rgba(0, 169, 206, 0.3)',
-                  overflow: 'hidden', // Prevent content from overflowing
+                  overflow: 'hidden',
                 }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, width: '100%' }}>
@@ -528,6 +529,8 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                         whiteSpace: 'pre-wrap', 
                         lineHeight: 1.5,
                         wordBreak: 'break-word',
+                        fontWeight: message.isBot ? 600 : 'normal',
+                        fontSize: message.isBot ? '1rem' : '0.875rem',
                       }}>
                         {message.text}
                       </Typography>
@@ -608,10 +611,10 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                 elevation={0} 
                 sx={{ 
                   p: 2, 
-                  background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+                  background: 'transparent',
                   borderRadius: '20px 20px 20px 6px',
-                  border: '1px solid rgba(148, 163, 184, 0.2)',
-                  boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)',
+                  border: 'none',
+                  boxShadow: 'none',
                 }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
