@@ -10,8 +10,13 @@ import {
   Box,
   Paper,
   Button,
-  Avatar,
+  Menu,
+  MenuItem,
 } from '@mui/material';
+import {
+  KeyboardArrowDown as ArrowDownIcon,
+  Logout as LogoutIcon,
+} from '@mui/icons-material';
 import { Region } from './types/enums';
 import { ChatBot } from './components/ChatBot';
 import RegionPanel from './components/RegionPanel';
@@ -23,10 +28,10 @@ const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#2563eb',
+      main: '#1F4C5F',
     },
     background: {
-      default: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      default: '#ffffff',
     },
   },
   typography: {
@@ -36,8 +41,7 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          backgroundAttachment: 'fixed',
+          background: '#ffffff',
           minHeight: '100vh',
         },
       },
@@ -50,6 +54,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
   const [regionStatus, setRegionStatus] = useState<Record<string, boolean>>({});
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -94,18 +100,19 @@ function App() {
     setUserInfo(null);
     setSelectedRegion(null);
     setRegionStatus({});
+    setAnchorEl(null);
+  };
+
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   const handleRegionStatusChange = (status: Record<string, boolean>) => {
     setRegionStatus(status);
-  };
-
-  const getRoleColor = () => {
-    return '#10b981'; // Green color for all roles
-  };
-
-  const getRoleLetter = (role: string) => {
-    return role === 'Admin' ? 'A' : role === 'Monitor' ? 'M' : 'U';
   };
 
   if (isLoading) {
@@ -118,10 +125,10 @@ function App() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: '#ffffff',
           }}
         >
-          <Typography variant="h6" color="white">
+          <Typography variant="h6" color="#1F4C5F">
             Loading...
           </Typography>
         </Box>
@@ -144,8 +151,7 @@ function App() {
       <Box
         sx={{
           minHeight: '100vh',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          backgroundAttachment: 'fixed',
+          background: '#ffffff',
         }}
       >
         {/* Header */}
@@ -153,83 +159,140 @@ function App() {
           position="static" 
           elevation={0}
           sx={{ 
-            background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(20px)',
+            background: '#253746',
+            boxShadow: '0 2px 10px rgba(31, 76, 95, 0.1)',
           }}
         >
-          <Toolbar>
+          <Toolbar sx={{ py: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  fontWeight: 700, 
-                  color: 'white',
-                  mr: 2
-                }}
-              >
-                Cloud Inventory AI Assistant
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <img 
+                  src="/DSI_logo.png" 
+                  alt="DSI Logo" 
+                  style={{ width: 32, height: 32, borderRadius: '6px' }}
+                />
+                <Typography 
+                  variant="h6" 
+                  sx={{ 
+                    fontWeight: 700, 
+                    color: 'white',
+                    fontSize: '1.1rem'
+                  }}
+                >
+                  Cloud Inventory AI Assistant
+                </Typography>
+              </Box>
             </Box>
             
-            {/* User Info */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Avatar sx={{ 
-                  width: 32, 
-                  height: 32, 
-                  bgcolor: getRoleColor(),
-                  fontSize: '1rem',
-                  fontWeight: 'bold',
-                  fontFamily: 'monospace'
-                }}>
-                  {getRoleLetter(userInfo.role)}
-                </Avatar>
-                <Box sx={{ color: 'white' }}>
-                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                    {userInfo.username}
-                  </Typography>
-                  <Typography variant="caption" sx={{ opacity: 0.8 }}>
-                    {userInfo.role}
-                  </Typography>
-                </Box>
-              </Box>
-              
+            {/* User Info with Dropdown */}
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Button
                 color="inherit"
-                onClick={handleLogout}
-                size="small"
+                onClick={handleMenuClick}
+                endIcon={<ArrowDownIcon />}
                 sx={{
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  '&:hover': { background: 'rgba(255, 255, 255, 0.2)' }
+                  background: '#253746',
+                  fontSize: '0.875rem',
+                  px: 2,
+                  py: 1,
+                  borderRadius: '8px',
+                  textTransform: 'none'
                 }}
               >
-                Logout
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box sx={{ 
+                    width: 48, 
+                    height: 48,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <img 
+                      src="/user_logo.svg" 
+                      alt="User" 
+                      style={{ width: 48, height: 48 }}
+                    />
+                  </Box>
+                  <Box sx={{ textAlign: 'left' }}>
+                    <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.875rem', lineHeight: 1, color: 'white' }}>
+                      {userInfo.username.charAt(0).toUpperCase() + userInfo.username.slice(1)}
+                    </Typography>
+                    <Box sx={{ 
+                      backgroundColor: '#1F4C5F', 
+                      borderRadius: '12px', 
+                      px: 1, 
+                      py: 0.25, 
+                      mt: 0.5,
+                      display: 'inline-block'
+                    }}>
+                      <Typography variant="caption" sx={{ color: 'white', fontSize: '0.65rem', fontWeight: 500 }}>
+                        {userInfo.role.charAt(0).toUpperCase() + userInfo.role.slice(1)}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
               </Button>
+              
+              <Menu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleMenuClose}
+                sx={{
+                  '& .MuiPaper-root': {
+                    backgroundColor: 'white',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+                    borderRadius: '8px',
+                    minWidth: '200px',
+                    mt: 1
+                  }
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              >
+                <MenuItem 
+                  onClick={handleLogout}
+                  sx={{ 
+                    fontSize: '0.875rem',
+                    py: 1.5,
+                    px: 2,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    '&:hover': {
+                      backgroundColor: 'rgba(239, 68, 68, 0.1)'
+                    }
+                  }}
+                >
+                  <LogoutIcon sx={{ fontSize: 16, mr: 1, color: '#ef4444' }} />
+                  Logout
+                </MenuItem>
+              </Menu>
             </Box>
           </Toolbar>
         </AppBar>
 
         {/* Main Container */}
-        <Container maxWidth="xl" sx={{ py: 4 }}>
+        <Container maxWidth="xl" sx={{ py: 3 }}>
           <Box sx={{ 
             display: 'flex', 
             flexDirection: { xs: 'column', lg: 'row' },
-            gap: 3 
+            gap: 3,
+            height: 'calc(100vh - 120px)' // Adjust based on header height
           }}>
             {/* Chat Section */}
-            <Box sx={{ flex: 3 }}>
+            <Box sx={{ flex: 3, height: '100%' }}>
               <Paper 
-                elevation={0}
+                elevation={2}
                 sx={{
-                  background: 'rgba(255, 255, 255, 0.95)',
-                  backdropFilter: 'blur(20px)',
-                  borderRadius: '16px',
+                  background: '#ffffff',
+                  borderRadius: '12px',
                   overflow: 'hidden',
-                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                  height: '75vh',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+                  height: '100%',
+                  border: '1px solid #e5e7eb',
                 }}
               >
-                <Box sx={{ p: 3, height: '100%' }}>
+                <Box sx={{ height: '100%' }}>
                   <ChatBot 
                     userId={userInfo.username} 
                     userRole={userInfo.role}
@@ -241,7 +304,7 @@ function App() {
             </Box>
             
             {/* Region Panel */}
-            <Box sx={{ flex: 1, minWidth: 280, maxWidth: 320 }}>
+            <Box sx={{ flex: 1, minWidth: 280, maxWidth: 320, height: '100%' }}>
               <RegionPanel
                 selectedRegion={selectedRegion}
                 onRegionChange={setSelectedRegion}

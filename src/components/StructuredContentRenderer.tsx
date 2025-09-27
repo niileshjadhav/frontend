@@ -249,7 +249,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
       elevation={1} 
       sx={{ 
         backgroundColor: '#f0fdf4',
-        border: '1px solid #22c55e',
+        border: '1px solid #00A9CE',
         borderRadius: '12px',
         maxWidth: '350px',
       }}
@@ -261,7 +261,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
               width: 28,
               height: 28,
               borderRadius: '6px',
-              backgroundColor: '#22c55e',
+              backgroundColor: '#00A9CE',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -274,7 +274,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
               {data.title}
             </Typography>
-            <Typography variant="body2" sx={{ color: '#22c55e', fontWeight: 600, fontSize: '0.8rem' }}>
+            <Typography variant="body2" sx={{ color: '#00A9CE', fontWeight: 600, fontSize: '0.8rem' }}>
               ✓ Operation completed successfully
             </Typography>
           </Box>
@@ -289,7 +289,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
               borderRadius: 2,
               backgroundColor: '#f0fdf4',
               '& .MuiLinearProgress-bar': {
-                backgroundColor: '#22c55e',
+                backgroundColor: '#00A9CE',
               },
             }}
           />

@@ -12,6 +12,7 @@ import {
   Alert,
   CircularProgress
 } from '@mui/material';
+import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { Region } from '../types/enums';
 import { apiService } from '../services/api';
 
@@ -257,13 +258,13 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
                   borderRadius: '12px',
                   backgroundColor: 'white',
                   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-                  border: '1px solid rgba(148, 163, 184, 0.2)',
+                    border: '1px solid rgba(0, 169, 206, 0.3)',
                   '&:hover': {
-                    border: '1px solid rgba(37, 99, 235, 0.3)',
+                    border: '1px solid rgba(0, 169, 206, 0.3)',
                   },
                   '&.Mui-focused': {
-                    border: '1px solid rgba(37, 99, 235, 0.5)',
-                    boxShadow: '0 4px 12px rgba(37, 99, 235, 0.15)',
+                    border: '1px solid rgba(0, 169, 206, 0.5)',
+                    boxShadow: '0 4px 12px rgba(0, 169, 206, 0.15)',
                   },
                   '& .MuiOutlinedInput-notchedOutline': {
                     border: 'none',
@@ -287,19 +288,30 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
                       <Typography sx={{ fontWeight: 500 }}>
                         {region.toUpperCase()}
                       </Typography>
-                      <Chip
-                        size="small"
-                        label={regionStatus[region] ? 'Connected' : 'Disconnected'}
+                      <Box
                         sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 0.5,
+                          backgroundColor: regionStatus[region] ? 'rgba(34, 197, 94, 0.2)' : 'rgba(236, 112, 112, 0.2)',
+                          color: regionStatus[region] ? '#22c55e' : '#ef4444',
+                          px: 0.75,
+                          py: 0.25,
+                          borderRadius: '8px',
                           fontSize: '0.65rem',
-                          height: '20px',
-                          backgroundColor: regionStatus[region] ? '#f0fdf4' : '#fef2f2',
-                          color: regionStatus[region] ? '#166534' : '#dc2626',
-                          border: `1px solid ${regionStatus[region] ? '#22c55e' : '#ef4444'}`,
                           fontWeight: 600,
                         }}
-                        variant="outlined"
-                      />
+                      >
+                        <Box
+                          sx={{
+                            width: 6,
+                            height: 6,
+                            borderRadius: '50%',
+                            backgroundColor: regionStatus[region] ? '#22c55e' : '#ef4444',
+                          }}
+                        />
+                        <span>{regionStatus[region] ? 'Connected' : 'Disconnected'}</span>
+                      </Box>
                     </Box>
                   </MenuItem>
                 ))}
@@ -318,20 +330,20 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
                 fullWidth
                 sx={{
                   borderRadius: '12px',
-                  background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
-                  boxShadow: '0 4px 16px rgba(37, 99, 235, 0.3)',
+                  background: 'linear-gradient(135deg, #00A9CE 0%, #0891b2 100%)',
+                  boxShadow: '0 4px 16px rgba(0, 169, 206, 0.3)',
                   py: 1.2,
                   mb: 1,
                   fontWeight: 600,
                   fontSize: '0.875rem',
                   textTransform: 'none',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #1e40af 0%, #5b21b6 100%)',
-                    boxShadow: '0 6px 20px rgba(37, 99, 235, 0.4)',
+                    background: 'linear-gradient(135deg, #0891b2 0%, #0e7490 100%)',
+                    boxShadow: '0 6px 20px rgba(0, 169, 206, 0.4)',
                     transform: 'translateY(-1px)',
                   },
                   '&:disabled': {
-                    background: 'rgba(148, 163, 184, 0.3)',
+                    background: 'rgba(219, 226, 236, 0.3)',
                     color: 'rgba(148, 163, 184, 0.7)',
                     boxShadow: 'none',
                     transform: 'none',
@@ -350,22 +362,24 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
                   disabled={connecting === selectedRegion || !regionStatus[selectedRegion]}
                   sx={{ 
                     flex: 1,
-                    borderRadius: '12px',
-                    borderColor: 'rgba(148, 163, 184, 0.3)',
-                    color: '#6b7280',
+                    borderRadius: '8px',
+                    borderColor: '#ef4444',
+                    color: '#ef4444',
                     fontSize: '0.875rem',
                     fontWeight: 500,
                     textTransform: 'none',
+                    backgroundColor: 'transparent',
+                    px: 2,
+                    py: 1,
                     '&:hover': {
-                      backgroundColor: 'rgba(239, 68, 68, 0.05)',
-                      borderColor: '#ef4444',
-                      color: '#dc2626',
-                      transform: 'translateY(-1px)',
+                      backgroundColor: 'rgba(239, 68, 68, 0.08) !important',
+                      borderColor: '#ef4444 !important',
                     },
                     '&:disabled': {
                       opacity: 0.5,
+                      borderColor: 'rgba(148, 163, 184, 0.3)',
+                      color: 'rgba(148, 163, 184, 0.7)',
                     },
-                    transition: 'all 0.2s ease-in-out',
                   }}
                 >
                   Disconnect
@@ -374,24 +388,42 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
                   variant="outlined"
                   onClick={loadRegionStatus}
                   disabled={connecting !== null}
+                  startIcon={
+                    <RefreshIcon 
+                      sx={{ 
+                        fontSize: 16,
+                        animation: connecting !== null ? 'spin 1s linear infinite' : 'none',
+                        '@keyframes spin': {
+                          '0%': {
+                            transform: 'rotate(0deg)',
+                          },
+                          '100%': {
+                            transform: 'rotate(360deg)',
+                          },
+                        },
+                      }} 
+                    />
+                  }
                   sx={{ 
                     flex: 1,
-                    borderRadius: '12px',
-                    borderColor: 'rgba(148, 163, 184, 0.3)',
-                    color: '#6b7280',
+                    borderRadius: '8px',
+                    borderColor: 'black',
+                    color: 'black',
                     fontSize: '0.875rem',
                     fontWeight: 500,
                     textTransform: 'none',
+                    backgroundColor: 'transparent',
+                    px: 2,
+                    py: 1,
                     '&:hover': {
-                      backgroundColor: 'rgba(37, 99, 235, 0.05)',
-                      borderColor: '#2563eb',
-                      color: '#2563eb',
-                      transform: 'translateY(-1px)',
+                      backgroundColor: 'rgba(0, 0, 0, 0.05) !important',
+                      borderColor: 'black !important',
                     },
                     '&:disabled': {
                       opacity: 0.5,
+                      borderColor: 'rgba(148, 163, 184, 0.3)',
+                      color: 'rgba(148, 163, 184, 0.5)',
                     },
-                    transition: 'all 0.2s ease-in-out',
                   }}
                 >
                   Refresh
@@ -421,14 +453,14 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
                     borderRadius: '14px',
                     fontWeight: 600,
                     backgroundColor: regionStatus[region] 
-                      ? 'rgba(34, 197, 94, 0.1)' 
+                      ? '#00A9CE' 
                       : 'rgba(148, 163, 184, 0.1)',
-                    color: regionStatus[region] ? '#166534' : '#64748b',
-                    border: `1px solid ${regionStatus[region] ? '#22c55e' : '#cbd5e1'}`,
+                    color: regionStatus[region] ? 'white' : 'black',
+                    border: `1px solid ${regionStatus[region] ? '#00A9CE' : '#cbd5e1'}`,
                     '&:hover': {
                       transform: 'translateY(-1px)',
                       boxShadow: regionStatus[region] 
-                        ? '0 4px 12px rgba(34, 197, 94, 0.15)'
+                        ? '0 4px 12px rgba(0, 169, 206, 0.15)'
                         : '0 4px 12px rgba(0, 0, 0, 0.08)',
                     },
                     transition: 'all 0.2s ease-in-out',

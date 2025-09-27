@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import {
   Send as SendIcon,
-  SmartToy as BotIcon,
   Person as PersonIcon,
   Refresh as RefreshIcon,
 } from '@mui/icons-material';
@@ -58,29 +57,8 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Helper function to check if the selected region is actually connected
   const isRegionConnected = () => {
     return selectedRegion ? regionStatus[selectedRegion] === true : false;
-  };
-
-  // Helper function to get role-specific colors and letters
-  const getRoleConfig = () => {
-    if (userRole === 'Admin') {
-      return {
-        color: '#10b981', // Green for Admin
-        letter: 'A'
-      };
-    } else if (userRole === 'Monitor') {
-      return {
-        color: '#10b981', // Same green for Monitor to maintain consistency
-        letter: 'M'
-      };
-    } else {
-      return {
-        color: '#667eea', // Default blue for other roles
-        letter: 'AI'
-      };
-    }
   };
 
   const scrollToBottom = () => {
@@ -91,21 +69,15 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
     scrollToBottom();
   }, [messages]);
 
-  // Track the last region we initialized with to prevent duplicate messages
   const [lastInitializedRegion, setLastInitializedRegion] = useState<Region | null | undefined>(undefined);
   const [isInitializing, setIsInitializing] = useState(false);
 
   useEffect(() => {
-    // Send initial message only when:
-    // 1. First load (lastInitializedRegion is undefined)
-    // 2. Region changes (selectedRegion !== lastInitializedRegion)
-    // 3. Not already initializing
     const shouldSendInitialMessage = 
       !isInitializing &&
       (lastInitializedRegion === undefined || selectedRegion !== lastInitializedRegion);
 
     if (shouldSendInitialMessage) {
-      // Clear messages if this is a region change (not first load)
       if (lastInitializedRegion !== undefined) {
         setMessages([]);
       }
@@ -116,12 +88,10 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
   }, [selectedRegion, isInitializing]);
 
   const sendInitialMessage = async () => {
-    // Prevent multiple concurrent initialization attempts
     if (isInitializing) {
       return;
     }
 
-    // Don't send initial message if there are already messages (except when clearing for region change)
     if (messages.length > 0 && lastInitializedRegion === selectedRegion) {
       return;
     }
@@ -158,7 +128,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
           : 'Please select and connect to a region to get started';
 
       addBotMessage({
-        response: `Hello ${userId}! I'm your Cloud Inventory assistant. As a ${userRole} ${userRole === 'Admin' ? '👑' : '👁️'}, ${roleCapabilities}. ${connectionMessage}.`,
+        response: `Hello ${userId}! I'm your Cloud Inventory assistant. As a ${userRole}, ${roleCapabilities}. ${connectionMessage}.`,
         suggestions: [
           'Show table statistics',
           userRole === 'Admin' ? 'Help with archiving' : 'View system status',
@@ -180,7 +150,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
       suggestions: response.suggestions,
       requiresConfirmation: response.requires_confirmation,
       operationData: response.operation_data,
-      structuredContent: response.structured_content, // Fix: use snake_case from API
+      structuredContent: response.structured_content,
     };
     
     setMessages(prev => [...prev, botMessage]);
@@ -261,7 +231,6 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
 
   const handleSuggestionClick = (suggestion: string) => {
     setInputText(suggestion);
-    // Focus the input field after setting the text
     setTimeout(() => {
       inputRef.current?.focus();
     }, 0);
@@ -312,18 +281,20 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '600px' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       {/* Main Chat Area */}
       <Card 
         sx={{ 
           flex: 1,
           display: 'flex', 
           flexDirection: 'column',
-          borderRadius: '20px',
-          background: 'linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)',
-          boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.2)',
+          borderRadius: '0px',
+          background: '#ffffff',
+          boxShadow: 'none',
           border: 'none',
+          borderTop: '4px solid #00A9CE',
           overflow: 'hidden',
+          height: '100%',
         }}
       >
       <CardContent sx={{ 
@@ -339,62 +310,93 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
           alignItems: 'center', 
           p: 3,
           pb: 2,
-          background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(124, 58, 237, 0.05) 100%)',
+          background: 'linear-gradient(135deg, rgba(0, 188, 212, 0.05) 0%, rgba(31, 76, 95, 0.05) 100%)',
           borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
         }}>
           <Box
             sx={{
-              width: 40,
-              height: 40,
-              borderRadius: '12px',
-              background: `linear-gradient(135deg, ${getRoleConfig().color} 0%, ${getRoleConfig().color}dd 100%)`,
+              width: 48,
+              height: 48,
+              borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               mr: 2,
-              boxShadow: `0 4px 12px ${getRoleConfig().color}40`,
             }}
           >
-            <BotIcon sx={{ color: 'white', fontSize: 20 }} />
+            <img 
+              src="/cloud_bot_white.svg" 
+              alt="AI Assistant" 
+              style={{ width: 48, height: 48 }}
+            />
           </Box>
           <Box sx={{ flexGrow: 1 }}>
             <Typography variant="h6" component="h2" sx={{ fontWeight: 700, mb: 0.5 }}>
-              AI Log Assistant
+              AI Cloud Assistant
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Typography 
-                variant="body2" 
-                sx={{ 
-                  fontSize: '0.875rem',
-                  color: isRegionConnected() ? '#10b981' : '#ef4444', // Green if connected, red if not
-                  fontWeight: 'bold',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.5,
-                }}
-              >
-                {selectedRegion ? (
-                  <>
-                    <span style={{ fontWeight: 'bold' }}>{selectedRegion}</span>
+              {selectedRegion ? (
+                <>
+                  <Typography 
+                    sx={{ 
+                      fontSize: '0.875rem',
+                      fontWeight: 'bold',
+                      color: 'black'
+                    }}
+                  >
+                    {selectedRegion.toUpperCase()}
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 0.5,
+                      backgroundColor: isRegionConnected() ? 'rgba(34, 197, 94, 0.1)' : 'rgba(236, 112, 112, 0.2)',
+                      color: isRegionConnected() ? '#22c55e' : '#ef4444',
+                      px: 1,
+                      py: 0.25,
+                      borderRadius: '12px',
+                      fontSize: '0.75rem',
+                      fontWeight: 600,
+                    }}
+                  >
                     <Box
                       sx={{
                         width: 8,
                         height: 8,
                         borderRadius: '50%',
-                        backgroundColor: isRegionConnected() ? '#10b981' : '#ef4444', // Green dot if connected, red if not
-                        boxShadow: isRegionConnected() 
-                          ? '0 0 6px rgba(16, 185, 129, 0.4)' 
-                          : '0 0 6px rgba(239, 68, 68, 0.4)',
+                        backgroundColor: isRegionConnected() ? '#22c55e' : '#ef4444',
                       }}
                     />
-                    <span style={{ fontWeight: 'normal' }}>
-                      {isRegionConnected() ? 'Connected' : 'Disconnected'}
-                    </span>
-                  </>
-                ) : (
-                  <span style={{ color: '#ef4444', fontWeight: 'bold' }}>No region selected</span>
-                )}
-              </Typography>
+                    <span>{isRegionConnected() ? 'Connected' : 'Disconnected'}</span>
+                  </Box>
+                </>
+              ) : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.5,
+                    backgroundColor: isRegionConnected() ? 'rgba(34, 197, 94, 0.1)' : 'rgba(236, 112, 112, 0.2)',
+                    color: isRegionConnected() ? '#22c55e' : '#ef4444',
+                    px: 1.5,
+                    py: 0.5,
+                    borderRadius: '12px',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: '50%',
+                      color: isRegionConnected() ? '#22c55e' : '#ef4444',
+                    }}
+                  />
+                  <span>No region selected</span>
+                </Box>
+              )}
             </Box>
           </Box>
           <IconButton 
@@ -425,7 +427,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
           overflow: 'auto', 
           p: 3,
           pt: 2,
-          background: 'linear-gradient(to bottom, #fafafa 0%, #ffffff 100%)',
+          background: '#ffffff',
           '&::-webkit-scrollbar': {
             width: '6px',
           },
@@ -459,7 +461,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                   p: 2,
                   background: message.isBot 
                     ? 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
-                    : 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
+                    : '#00A9CE',
                   color: message.isBot ? 'text.primary' : 'white',
                   borderRadius: message.isBot ? '20px 20px 20px 6px' : '20px 20px 6px 20px',
                   border: message.isBot 
@@ -467,31 +469,47 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                     : 'none',
                   boxShadow: message.isBot 
                     ? '0 2px 12px rgba(0, 0, 0, 0.08)'
-                    : '0 4px 20px rgba(37, 99, 235, 0.3)',
+                    : '0 4px 20px rgba(0, 169, 206, 0.3)',
                   overflow: 'hidden', // Prevent content from overflowing
                 }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, width: '100%' }}>
                   <Box
                     sx={{
-                      width: 24,
-                      height: 24,
-                      borderRadius: '8px',
+                      width: 32,
+                      height: 32,
+                      borderRadius: '50%',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      background: message.isBot 
-                        ? `linear-gradient(135deg, ${getRoleConfig().color} 0%, ${getRoleConfig().color}dd 100%)`
-                        : 'rgba(255, 255, 255, 0.2)',
-                      backdropFilter: 'blur(10px)',
                       flexShrink: 0,
                       mt: 0.2,
                     }}
                   >
                     {message.isBot ? (
-                      <BotIcon sx={{ fontSize: 14, color: 'white' }} />
+                      <img 
+                        src="/cloud_bot_colored.svg" 
+                        alt="AI" 
+                        style={{ width: 40, height: 40 }}
+                      />
                     ) : (
-                      <PersonIcon sx={{ fontSize: 14, color: 'white' }} />
+                      <Box
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: '50%',
+                          backgroundColor: '#00A9CE',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <img 
+                          src="/user_logo_dark.svg" 
+                          alt="User" 
+                          style={{ width: 40, height: 40 }}
+                        />
+                      </Box>
                     )}
                   </Box>
                   <Box sx={{ flexGrow: 1, minWidth: 0, width: '100%' }}> {/* Ensure content can use full width */}
@@ -562,14 +580,14 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                               ? 'rgba(255, 255, 255, 0.9)'
                               : 'rgba(255, 255, 255, 0.2)',
                             border: message.isBot 
-                              ? '1px solid rgba(148, 163, 184, 0.3)'
+                              ? '1px solid rgba(0, 169, 206, 0.3)'
                               : '1px solid rgba(255, 255, 255, 0.3)',
                             color: message.isBot ? 'text.primary' : 'white',
                             backdropFilter: 'blur(10px)',
                             transition: 'all 0.2s ease-in-out',
                             '&:hover': {
                               background: message.isBot 
-                                ? 'rgba(37, 99, 235, 0.1)'
+                                ? 'rgba(0, 169, 206, 0.1)'
                                 : 'rgba(255, 255, 255, 0.3)',
                               transform: 'translateY(-1px)',
                               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
@@ -599,16 +617,19 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                   <Box
                     sx={{
-                      width: 24,
-                      height: 24,
-                      borderRadius: '8px',
+                      width: 40,
+                      height: 40,
+                      borderRadius: '50%',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      background: `linear-gradient(135deg, ${getRoleConfig().color} 0%, ${getRoleConfig().color}dd 100%)`,
                     }}
                   >
-                    <BotIcon sx={{ fontSize: 14, color: 'white' }} />
+                    <img 
+                      src="/cloud_bot_colored.svg" 
+                      alt="AI" 
+                      style={{ width: 40, height: 40 }}
+                    />
                   </Box>
                   <CircularProgress size={16} sx={{ color: 'primary.main' }} />
                   <Typography variant="body2" sx={{ fontStyle: 'italic', color: 'text.secondary' }}>
@@ -626,8 +647,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
         <Box sx={{ 
           p: 3, 
           pt: 2,
-          background: 'rgba(248, 250, 252, 0.8)',
-          backdropFilter: 'blur(20px)',
+          background: '#f9fafb',
           borderTop: '1px solid rgba(0, 0, 0, 0.08)',
         }}>
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-end' }}>
@@ -649,11 +669,11 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
                   border: '1px solid rgba(148, 163, 184, 0.2)',
                   '&:hover': {
-                    border: '1px solid rgba(37, 99, 235, 0.3)',
+                    border: '1px solid rgba(0, 169, 206, 0.3)',
                   },
                   '&.Mui-focused': {
-                    border: '1px solid rgba(37, 99, 235, 0.5)',
-                    boxShadow: '0 4px 12px rgba(37, 99, 235, 0.15)',
+                    border: '1px solid rgba(0, 169, 206, 0.5)',
+                    boxShadow: '0 4px 12px rgba(0, 169, 206, 0.15)',
                   },
                 },
                 '& .MuiInputBase-input': {
@@ -719,12 +739,12 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                   height: '28px',
                   borderRadius: '14px',
                   background: 'rgba(255, 255, 255, 0.9)',
-                  border: '1px solid rgba(148, 163, 184, 0.3)',
+                  border: '1px solid rgba(0, 169, 206, 0.3)',
                   color: 'text.primary',
                   backdropFilter: 'blur(10px)',
                   transition: 'all 0.2s ease-in-out',
                   '&:hover': {
-                    background: 'rgba(37, 99, 235, 0.1)',
+                    background: 'rgba(0, 169, 206, 0.1)',
                     transform: 'translateY(-1px)',
                     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
                   }
@@ -741,12 +761,12 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                   height: '28px',
                   borderRadius: '14px',
                   background: 'rgba(255, 255, 255, 0.9)',
-                  border: '1px solid rgba(148, 163, 184, 0.3)',
+                  border: '1px solid rgba(0, 169, 206, 0.3)',
                   color: 'text.primary',
                   backdropFilter: 'blur(10px)',
                   transition: 'all 0.2s ease-in-out',
                   '&:hover': {
-                    background: 'rgba(37, 99, 235, 0.1)',
+                    background: 'rgba(0, 169, 206, 0.1)',
                     transform: 'translateY(-1px)',
                     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
                   }
