@@ -10,10 +10,6 @@ import {
 } from '@mui/material';
 import {
   TrendingUp as TrendingUpIcon,
-  QueryStats as QueryStatsIcon,
-  Archive as ArchiveIcon,
-  Delete as DeleteIcon,
-  Check as CheckIcon,
 } from '@mui/icons-material';
 
 interface StructuredContentProps {
@@ -38,20 +34,6 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
     >
       <CardContent sx={{ p: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-          <Box
-            sx={{
-              width: 32,
-              height: 32,
-              borderRadius: '10px',
-              backgroundColor: '#0ea5e9',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mr: 1.5,
-            }}
-          >
-            <QueryStatsIcon sx={{ color: 'white', fontSize: 16 }} />
-          </Box>
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
               {data.title}
@@ -120,22 +102,14 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
           <Box
             sx={{
-              width: 32,
-              height: 32,
-              borderRadius: '10px',
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
               backgroundColor: isDelete ? '#ef4444' : '#f97316',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               mr: 1.5,
+              mt: 0.5,
             }}
-          >
-            {isDelete ? (
-              <DeleteIcon sx={{ color: 'white', fontSize: 16 }} />
-            ) : (
-              <ArchiveIcon sx={{ color: 'white', fontSize: 16 }} />
-            )}
-          </Box>
+          />
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
               {data.title}
@@ -256,19 +230,17 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
     >
       <CardContent sx={{ p: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-          <Box
-            sx={{
-              width: 28,
-              height: 28,
-              borderRadius: '6px',
-              backgroundColor: '#00A9CE',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mr: 1.5,
-            }}
-          >
-            <CheckIcon sx={{ color: 'white', fontSize: 16 }} />
+          <Box>
+            <Box
+              sx={{
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                backgroundColor: '#00A9CE',
+                mr: 1.5,
+                mt: 0.5,
+              }}
+            />
           </Box>
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
@@ -323,18 +295,14 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
           <Box
             sx={{
-              width: 32,
-              height: 32,
-              borderRadius: '10px',
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
               backgroundColor: '#f59e0b',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               mr: 1.5,
+              mt: 0.5,
             }}
-          >
-            <QueryStatsIcon sx={{ color: 'white', fontSize: 16 }} />
-          </Box>
+          />
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1.1rem' }}>
               {data.title}
@@ -451,18 +419,14 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
           <Box
             sx={{
-              width: 32,
-              height: 32,
-              borderRadius: '10px',
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
               backgroundColor: '#3b82f6',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               mr: 1.5,
+              mt: 0.5,
             }}
-          >
-            <QueryStatsIcon sx={{ color: 'white', fontSize: 16 }} />
-          </Box>
+          />
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
               {data.title}
@@ -502,18 +466,14 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
           <Box
             sx={{
-              width: 32,
-              height: 32,
-              borderRadius: '10px',
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
               backgroundColor: '#ef4444',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               mr: 1.5,
+              mt: 0.5,
             }}
-          >
-            <DeleteIcon sx={{ color: 'white', fontSize: 16 }} />
-          </Box>
+          />
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
               {data.title}
@@ -596,18 +556,14 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
           <Box
             sx={{
-              width: 32,
-              height: 32,
-              borderRadius: '10px',
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
               backgroundColor: '#6b7280',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               mr: 1.5,
+              mt: 0.5,
             }}
-          >
-            <DeleteIcon sx={{ color: 'white', fontSize: 16 }} />
-          </Box>
+          />
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
               {data.title}
@@ -650,20 +606,6 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
     >
       <CardContent sx={{ p: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <Box
-            sx={{
-              width: 32,
-              height: 32,
-              borderRadius: '10px',
-              backgroundColor: '#0ea5e9',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mr: 1.5,
-            }}
-          >
-            <QueryStatsIcon sx={{ color: 'white', fontSize: 16 }} />
-          </Box>
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1.1rem' }}>
               {data.title}

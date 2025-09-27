@@ -647,67 +647,96 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
         <Box sx={{ 
           p: 3, 
           pt: 2,
-          background: '#f9fafb',
+          background: '#ffffff',
           borderTop: '1px solid rgba(0, 0, 0, 0.08)',
         }}>
-          <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-end' }}>
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Ask me about log management, archiving, or statistics..."
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              onKeyPress={handleKeyPress}
-              disabled={isLoading}
-              multiline
-              maxRows={3}
-              inputRef={inputRef}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '16px',
-                  backgroundColor: 'white',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-                  border: '1px solid rgba(148, 163, 184, 0.2)',
-                  '&:hover': {
-                    border: '1px solid rgba(0, 169, 206, 0.3)',
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center',
+            gap: 2,
+          }}>
+            <Box sx={{ 
+              flex: 1,
+              backgroundColor: '#f8fafc',
+              borderRadius: '25px',
+              border: '1px solid #00bcd4',
+              boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)',
+              transition: 'all 0.2s ease-in-out',
+              '&:focus-within': {
+                border: '2px solid #00bcd4',
+                boxShadow: '0 4px 20px rgba(0, 188, 212, 0.3)',
+                backgroundColor: '#ffffff',
+              }
+            }}>
+              <TextField
+                fullWidth
+                size="medium"
+                placeholder="Type here..."
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyPress={handleKeyPress}
+                disabled={isLoading}
+                multiline
+                maxRows={3}
+                inputRef={inputRef}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    border: 'none',
+                    borderRadius: '25px',
+                    backgroundColor: 'transparent',
+                    boxShadow: 'none',
+                    pl: 3,
+                    pr: 3,
+                    '& fieldset': {
+                      border: 'none',
+                    },
+                    '&:hover fieldset': {
+                      border: 'none',
+                    },
+                    '&.Mui-focused fieldset': {
+                      border: 'none',
+                    },
                   },
-                  '&.Mui-focused': {
-                    border: '1px solid rgba(0, 169, 206, 0.5)',
-                    boxShadow: '0 4px 12px rgba(0, 169, 206, 0.15)',
+                  '& .MuiInputBase-input': {
+                    fontSize: '0.95rem',
+                    lineHeight: 1.5,
+                    color: '#374151',
+                    '&::placeholder': {
+                      color: '#9ca3af',
+                      opacity: 1,
+                    },
                   },
-                },
-                '& .MuiInputBase-input': {
-                  fontSize: '0.875rem',
-                  lineHeight: 1.5,
-                },
-              }}
-            />
+                }}
+              />
+            </Box>
             <Button
               variant="contained"
-              size="medium"
+              size="large"
               onClick={() => sendMessage()}
               disabled={!inputText.trim() || isLoading}
               sx={{
-                minWidth: 'auto',
-                px: 2.5,
-                py: 1.5,
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
-                boxShadow: '0 4px 16px rgba(37, 99, 235, 0.3)',
+                minWidth: '48px',
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                background: '#3db7f0ff',
+                color: '#ffffff',
+                boxShadow: '0 2px 8px rgba(179, 229, 252, 0.4)',
+                border: 'none',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #1e40af 0%, #5b21b6 100%)',
-                  boxShadow: '0 6px 20px rgba(37, 99, 235, 0.4)',
+                  boxShadow: '0 4px 12px rgba(129, 212, 250, 0.5)',
                   transform: 'translateY(-1px)',
                 },
                 '&:disabled': {
-                  background: 'rgba(148, 163, 184, 0.3)',
-                  color: 'rgba(148, 163, 184, 0.7)',
+                  background: '#B3E5FC',
+                  color: '#ffffff',
                   boxShadow: 'none',
+                  transform: 'none',
                 },
                 transition: 'all 0.2s ease-in-out',
               }}
             >
-              <SendIcon fontSize="small" />
+              <SendIcon fontSize="small" sx={{ color: '#ffffff' }} />
             </Button>
           </Box>
 

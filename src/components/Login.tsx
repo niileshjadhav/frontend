@@ -50,7 +50,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           <div className="login-header">
             <h1>☁️ Cloud Inventory</h1>
             <h2>Log Management</h2>
-            <p>Role-Based Database Operation System</p>
+            <p>Database Operation System</p>
           </div>
 
           <form onSubmit={handleSubmit} className="login-form">

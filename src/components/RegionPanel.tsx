@@ -203,16 +203,28 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
           background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(124, 58, 237, 0.05) 100%)',
           borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
         }}>
-          <Typography variant="h6" sx={{ 
+          <Box display="flex" alignItems="center" mb={1}>
+            <img 
+              src="/globe.svg" 
+              alt="Globe Icon" 
+              style={{ 
+                width: 24, 
+                height: 24, 
+                verticalAlign: 'middle', 
+                marginRight: 8 
+              }} 
+            />
+             <Typography variant="h6" sx={{ 
             fontWeight: 700, 
             color: '#0f172a',
             fontSize: '1.1rem',
             mb: 0.5
           }}>
-            🌍 Region Selection
+            Region Selection
           </Typography>
+          </Box>
           <Typography variant="body2" sx={{ 
-            color: '#64748b', 
+            color: '#333333', 
             fontSize: '0.875rem' 
           }}>
             Connect to a regional database
