@@ -39,47 +39,56 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   return (
     <div className="login-container">
-      <div className="login-card">
-        <div className="login-header">
-          <h2>🔐 Cloud Inventory Log Management</h2>
-          <p>Role-Based Database Operations System</p>
+      <div className="login-content">
+        <div className="logo-section">
+          <div className="logo-container">
+            <img src="/DSI_logo.png" alt="Logo" className="logo" />
+          </div>
         </div>
-
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={credentials.username}
-              onChange={handleInputChange}
-              required
-              disabled={loading}
-              placeholder="Enter your username"
-            />
+        
+        <div className="form-section">
+          <div className="login-header">
+            <h1>☁️ Cloud Inventory</h1>
+            <h2>Log Management</h2>
+            <p>Role-Based Database Operation System</p>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={credentials.password}
-              onChange={handleInputChange}
-              required
-              disabled={loading}
-              placeholder="Enter your password"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="login-form">
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={credentials.username}
+                onChange={handleInputChange}
+                required
+                disabled={loading}
+                placeholder="Admin"
+              />
+            </div>
 
-          {error && <div className="error-message">{error}</div>}
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={credentials.password}
+                onChange={handleInputChange}
+                required
+                disabled={loading}
+                placeholder="••••••••"
+              />
+            </div>
 
-          <button type="submit" disabled={loading} className="login-button">
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-        </form>
+            {error && <div className="error-message">{error}</div>}
+
+            <button type="submit" disabled={loading} className="login-button">
+              {loading ? 'Logging in...' : 'Login'}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
