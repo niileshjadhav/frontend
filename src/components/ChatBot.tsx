@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import {
   Send as SendIcon,
-  Person as PersonIcon,
   Refresh as RefreshIcon,
 } from '@mui/icons-material';
 import { apiService, type ChatResponse, type ChatMessage } from '../services/api';
@@ -129,11 +128,6 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
 
       addBotMessage({
         response: `Hello ${userId}! I'm your Cloud Inventory assistant. As a ${userRole}, ${roleCapabilities}. ${connectionMessage}.`,
-        suggestions: [
-          'Show table statistics',
-          userRole === 'Admin' ? 'Help with archiving' : 'View system status',
-          'Explain available operations'
-        ],
         requires_confirmation: false,
       });
     } finally {
@@ -182,11 +176,6 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
         response: selectedRegion 
           ? `⚠️ Region ${selectedRegion} is selected but not connected. Please connect to the region first to perform database operations.`
           : '⚠️ No region is connected. Please select and connect to a region first to perform database operations.',
-        suggestions: [
-          'Connect to region first',
-          'What can you do?',
-          'Explain regions'
-        ],
         requires_confirmation: false,
       });
       return;
@@ -221,7 +210,6 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
       console.error('Error sending message:', error);
       addBotMessage({
         response: `Sorry, I encountered an error: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`,
-        suggestions: ['Show table statistics', 'Help with archiving'],
         requires_confirmation: false,
       });
     } finally {
@@ -259,7 +247,6 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
   const handleCancelOperation = () => {
     addBotMessage({
       response: 'Operation cancelled. No changes have been made.',
-      suggestions: ['Show table statistics', 'Help with archiving'],
       requires_confirmation: false,
     });
     setPendingConfirmation(null);
@@ -760,28 +747,6 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
               Quick Actions
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-              <Chip
-                label="What can you do?"
-                size="small"
-                variant="outlined"
-                clickable
-                onClick={() => handleSuggestionClick("What can you do?")}
-                sx={{ 
-                  fontSize: '0.75rem',
-                  height: '28px',
-                  borderRadius: '14px',
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  border: '1px solid rgba(0, 169, 206, 0.3)',
-                  color: 'text.primary',
-                  backdropFilter: 'blur(10px)',
-                  transition: 'all 0.2s ease-in-out',
-                  '&:hover': {
-                    background: 'rgba(0, 169, 206, 0.1)',
-                    transform: 'translateY(-1px)',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                  }
-                }}
-              />
               <Chip
                 label="Show table statistics"
                 size="small"

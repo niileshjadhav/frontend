@@ -6,7 +6,6 @@ import {
   CardContent,
   Chip,
   Alert,
-  LinearProgress,
   Button,
 } from '@mui/material';
 import {
@@ -30,14 +29,14 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
         maxWidth: '350px',
       }}
     >
-      <CardContent sx={{ p: 2 }}>
+      <CardContent sx={{ p: 2, pt: 0 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
               {data.title}
             </Typography>
             <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
-              Table: {data.table_name}
+              {data.region} Region • Table: {data.table_name}
             </Typography>
           </Box>
         </Box>
@@ -78,10 +77,9 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
     </Card>
   );
 
-  // renderDataTable function removed - no longer showing actual table records
 
   const renderConfirmationCard = (data: any) => {
-    const isDelete = data.operation?.toLowerCase().includes('delete');
+    const isDelete = data.title?.toLowerCase().includes('delete');
 
     return (
       <Card 
@@ -92,8 +90,16 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
           maxWidth: '400px',
       }}
     >
-      <CardContent sx={{ p: 3, textAlign: 'center' }}>
-        {/* Large number display */}
+      <CardContent sx={{ p: 3, pt: 0, textAlign: 'center' }}>
+        <Box sx={{ mb: 2, textAlign: 'left' }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem', mb: 0.5 }}>
+            {data.title}
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.8rem', mb: 2 }}>
+            {data.region} Region
+          </Typography>
+        </Box>
+        
         <Box
           sx={{
             border: '2px solid #f87171',
@@ -195,51 +201,22 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
     <Card 
       elevation={0} 
       sx={{ 
-        backgroundColor: '#f0fdf4',
-        border: '1px solid #00A9CE',
         borderRadius: '12px',
         maxWidth: '350px',
       }}
     >
-      <CardContent sx={{ p: 2 }}>
+      <CardContent sx={{ p: 2, pt: 0 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-          <Box>
-            <Box
-              sx={{
-                width: 8,
-                height: 8,
-                borderRadius: '50%',
-                backgroundColor: '#00A9CE',
-                mr: 1.5,
-                mt: 0.5,
-              }}
-            />
-          </Box>
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
               {data.title}
             </Typography>
-            <Typography variant="body2" sx={{ color: '#00A9CE', fontWeight: 600, fontSize: '0.8rem' }}>
-              ✓ Operation completed successfully
+            <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
+              {data.region} Region
             </Typography>
           </Box>
         </Box>
-
-        <Box sx={{ mb: 1.5 }}>
-          <LinearProgress 
-            variant="determinate" 
-            value={100} 
-            sx={{ 
-              height: 4, 
-              borderRadius: 2,
-              backgroundColor: '#f0fdf4',
-              '& .MuiLinearProgress-bar': {
-                backgroundColor: '#00A9CE',
-              },
-            }}
-          />
-        </Box>
-
+      
         {data.details && (
           <Box sx={{ mt: 1.5 }}>
             {data.details.map((detail: any, index: number) => (
@@ -253,151 +230,17 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
     </Card>
   );
 
-  const renderCapabilitiesCard = (data: any) => (
-    <Card 
-      elevation={0} 
-      sx={{ 
-        backgroundColor: 'transparent',
-        border: '1px solid #f59e0b',
-        borderRadius: '12px',
-        maxWidth: '450px',
-        width: '100%',
-      }}
-    >
-      <CardContent sx={{ p: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <Box
-            sx={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              backgroundColor: '#f59e0b',
-              mr: 1.5,
-              mt: 0.5,
-            }}
-          />
-          <Box>
-            <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1.1rem' }}>
-              {data.title}
-            </Typography>
-            <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
-              Cloud Inventory Management Assistant
-            </Typography>
-          </Box>
-        </Box>
-
-        {data.capabilities && data.capabilities.length > 0 && (
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#374151', mb: 1.5, fontSize: '0.9rem' }}>
-              🚀 My Capabilities
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              {data.capabilities.map((capability: any, index: number) => (
-                <Box 
-                  key={index}
-                  sx={{
-                    p: 1.5,
-                    borderRadius: '8px',
-                    backgroundColor: 'transparent',
-                    border: '1px solid rgba(245, 158, 11, 0.2)',
-                    transition: 'all 0.2s ease-in-out',
-                    '&:hover': {
-                      backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                      borderColor: '#f59e0b',
-                      transform: 'translateY(-1px)',
-                    },
-                  }}
-                >
-                  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
-                    <Typography variant="body2" sx={{ fontSize: '0.9rem', lineHeight: 1.2 }}>
-                      {capability.icon}
-                    </Typography>
-                    <Box sx={{ flex: 1 }}>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#374151', fontSize: '0.85rem', mb: 0.25 }}>
-                        {capability.title}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.75rem', lineHeight: 1.3 }}>
-                        {capability.description}
-                      </Typography>
-                      {capability.examples && capability.examples.length > 0 && (
-                        <Box sx={{ mt: 0.75, display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                          {capability.examples.map((example: string, exampleIndex: number) => (
-                            <Chip
-                              key={exampleIndex}
-                              label={example}
-                              size="small"
-                              clickable
-                              onClick={() => onSuggestionClick?.(example)}
-                              sx={{
-                                fontSize: '0.65rem',
-                                height: '20px',
-                                backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                                color: '#d97706',
-                                borderColor: 'rgba(245, 158, 11, 0.3)',
-                                cursor: 'pointer',
-                                '& .MuiChip-label': {
-                                  px: 1,
-                                },
-                                '&:hover': {
-                                  backgroundColor: 'rgba(245, 158, 11, 0.2)',
-                                  transform: 'translateY(-1px)',
-                                },
-                                transition: 'all 0.2s ease-in-out',
-                              }}
-                              variant="outlined"
-                            />
-                          ))}
-                        </Box>
-                      )}
-                    </Box>
-                  </Box>
-                </Box>
-              ))}
-            </Box>
-          </Box>
-        )}
-
-        {data.quick_tips && data.quick_tips.length > 0 && (
-          <Box sx={{ mt: 2, pt: 1.5, borderTop: '1px solid rgba(245, 158, 11, 0.2)' }}>
-            <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#374151', mb: 1, fontSize: '0.9rem' }}>
-              💡 Quick Tips
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-              {data.quick_tips.map((tip: string, index: number) => (
-                <Typography key={index} variant="body2" sx={{ color: '#64748b', fontSize: '0.75rem', lineHeight: 1.4 }}>
-                  • {tip}
-                </Typography>
-              ))}
-            </Box>
-          </Box>
-        )}
-      </CardContent>
-    </Card>
-  );
-
   const renderConversationalCard = (data: any) => (
     <Card 
       elevation={0} 
       sx={{ 
-        backgroundColor: '#f0f9ff',
-        border: '1px solid #3b82f6',
         borderRadius: '12px',
         maxWidth: '100%',
         width: '100%',
       }}
     >
-      <CardContent sx={{ p: 2 }}>
+      <CardContent sx={{ p: 2, pt: 0 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-          <Box
-            sx={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              backgroundColor: '#3b82f6',
-              mr: 1.5,
-              mt: 0.5,
-            }}
-          />
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
               {data.title}
@@ -426,25 +269,12 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
     <Card 
       elevation={0} 
       sx={{ 
-        backgroundColor: '#fef2f2',
-        border: '1px solid #ef4444',
-        borderRadius: '12px',
         maxWidth: '100%',
         width: '100%',
       }}
     >
-      <CardContent sx={{ p: 2 }}>
+      <CardContent sx={{ p: 2, pt: 0 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-          <Box
-            sx={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              backgroundColor: '#ef4444',
-              mr: 1.5,
-              mt: 0.5,
-            }}
-          />
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
               {data.title}
@@ -516,24 +346,11 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
     <Card 
       elevation={0} 
       sx={{ 
-        backgroundColor: '#f9fafb',
-        border: '1px solid #6b7280',
-        borderRadius: '12px',
         maxWidth: '350px',
       }}
     >
-      <CardContent sx={{ p: 2 }}>
+      <CardContent sx={{ p: 2, pt: 0 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-          <Box
-            sx={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              backgroundColor: '#6b7280',
-              mr: 1.5,
-              mt: 0.5,
-            }}
-          />
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1rem' }}>
               {data.title}
@@ -546,7 +363,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
 
         <Box sx={{ mb: 1.5 }}>
           <Typography variant="body2" sx={{ 
-            color: '#374151', 
+            color: '#000000', 
             fontSize: '0.85rem', 
             lineHeight: 1.5,
             mb: 1
@@ -567,21 +384,18 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
     <Card 
       elevation={0} 
       sx={{ 
-        backgroundColor: '#f0f9ff',
-        border: '1px solid #0ea5e9',
-        borderRadius: '12px',
         width: '100%',
         maxWidth: '100%',
       }}
     >
-      <CardContent sx={{ p: 2 }}>
+      <CardContent sx={{ p: 2, pt: 0 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
           <Box>
-            <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#0f172a', fontSize: '1.1rem' }}>
-              {data.title}
+            <Typography variant="subtitle1" sx={{ fontWeight: 700, color: '#000000', fontSize: '1.1rem' }}>
+              Database Statistics
             </Typography>
             <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
-              {data.summary?.main_tables_count || 0} main tables • {data.summary?.archive_tables_count || 0} archive tables
+              {data.region} Region • {data.summary?.main_tables_count || 0} main tables • {data.summary?.archive_tables_count || 0} archive tables
             </Typography>
           </Box>
         </Box>
@@ -589,7 +403,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
         {/* Main Tables */}
         {data.main_tables && data.main_tables.length > 0 && (
           <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#374151', mb: 1, fontSize: '0.9rem' }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#000000', mb: 1, fontSize: '0.9rem' }}>
               🗂️ Main Tables
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -600,14 +414,13 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
                     p: 1.5,
                     borderRadius: '8px',
                     backgroundColor: '#ffffff',
-                    border: '1px solid rgba(14, 165, 233, 0.2)',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center'
                   }}
                 >
                   <Box>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#374151', fontSize: '0.85rem' }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#000000', fontSize: '0.85rem' }}>
                       {table.name}
                     </Typography>
                     {table.error ? (
@@ -637,7 +450,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
         {/* Archive Tables */}
         {data.archive_tables && data.archive_tables.length > 0 && (
           <Box>
-            <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#374151', mb: 1, fontSize: '0.9rem' }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#000000', mb: 1, fontSize: '0.9rem' }}>
               📦 Archive Tables
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -648,14 +461,13 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
                     p: 1.5,
                     borderRadius: '8px',
                     backgroundColor: '#ffffff',
-                    border: '1px solid rgba(245, 158, 11, 0.2)',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center'
                   }}
                 >
                   <Box>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#374151', fontSize: '0.85rem' }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#000000', fontSize: '0.85rem' }}>
                       {table.name}
                     </Typography>
                     {table.error ? (
@@ -695,8 +507,6 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({ content, 
       return renderConfirmationCard(content);
     case 'success_card':
       return renderSuccessCard(content);
-    case 'capabilities_card':
-      return renderCapabilitiesCard(content);
     case 'conversational_card':
       return renderConversationalCard(content);
     case 'error_card':
