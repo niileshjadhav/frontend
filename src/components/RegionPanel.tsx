@@ -32,18 +32,32 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [regionStatus, setRegionStatus] = useState<Record<string, boolean>>({});
   const [availableRegions, setAvailableRegions] = useState<string[]>([]);
+  const [hasRestoredFromStorage, setHasRestoredFromStorage] = useState(false);
 
   useEffect(() => {
     loadRegionStatus();
-    // Restore selected region from localStorage
-    restoreSelections();
   }, []);
+
+  useEffect(() => {
+    if (selectedRegion === null && hasRestoredFromStorage) {
+      setHasRestoredFromStorage(false);
+    }
+  }, [selectedRegion, hasRestoredFromStorage]);
+
+  useEffect(() => {
+    if (availableRegions.length > 0 && !hasRestoredFromStorage) {
+      restoreSelections();
+      setHasRestoredFromStorage(true);
+    }
+  }, [availableRegions, hasRestoredFromStorage]);
 
   const restoreSelections = () => {
     const savedRegion = localStorage.getItem('selectedRegion');
     
     if (savedRegion && availableRegions.includes(savedRegion)) {
       onRegionChange(savedRegion as Region);
+    } else if (savedRegion && !availableRegions.includes(savedRegion)) {
+      localStorage.removeItem('selectedRegion');
     }
   };
 
