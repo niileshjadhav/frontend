@@ -17,7 +17,7 @@ import {
   KeyboardArrowDown as ArrowDownIcon,
   Logout as LogoutIcon,
 } from '@mui/icons-material';
-import { Region } from './types/enums';
+import type { Region } from './types/region';
 import { ChatBot } from './components/ChatBot';
 import RegionPanel from './components/RegionPanel';
 import Login from './components/Login';

@@ -13,7 +13,7 @@ import {
   CircularProgress
 } from '@mui/material';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
-import { Region } from '../types/enums';
+import type { Region } from '../types/region';
 import { apiService } from '../services/api';
 
 interface RegionPanelProps {
@@ -31,7 +31,7 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
   const [connecting, setConnecting] = useState<Region | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [regionStatus, setRegionStatus] = useState<Record<string, boolean>>({});
-  const [availableRegions, setAvailableRegions] = useState<Region[]>([]);
+  const [availableRegions, setAvailableRegions] = useState<string[]>([]);
 
   useEffect(() => {
     loadRegionStatus();
@@ -42,7 +42,7 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
   const restoreSelections = () => {
     const savedRegion = localStorage.getItem('selectedRegion');
     
-    if (savedRegion && Object.values(Region).includes(savedRegion as Region)) {
+    if (savedRegion && availableRegions.includes(savedRegion)) {
       onRegionChange(savedRegion as Region);
     }
   };

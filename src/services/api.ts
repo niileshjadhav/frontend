@@ -1,5 +1,5 @@
 // API service
-import { Region } from '../types/enums';
+import type { Region } from '../types/region';
 
 const API_BASE_URL = 'http://localhost:8000';
 
@@ -284,8 +284,8 @@ class ApiService {
   }
 
   // Region management
-  async getAvailableRegions(): Promise<Region[]> {
-    const response = await this.request<{regions: Region[], connection_status: Record<string, boolean>}>('/regions/');
+  async getAvailableRegions(): Promise<string[]> {
+    const response = await this.request<{regions: string[], connection_status: Record<string, boolean>}>('/regions/');
     return response.regions;
   }
 

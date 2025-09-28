@@ -16,7 +16,7 @@ import {
   Refresh as RefreshIcon,
 } from '@mui/icons-material';
 import { apiService, type ChatResponse, type ChatMessage } from '../services/api';
-import { Region } from '../types/enums';
+import type { Region } from '../types/region';
 import ConfirmationDialog from './ConfirmationDialog';
 import StructuredContentRenderer from './StructuredContentRenderer';
 
