@@ -8,7 +8,6 @@ import {
   Alert,
   Button,
 } from "@mui/material";
-import { TrendingUp as TrendingUpIcon } from "@mui/icons-material";
 
 interface StructuredContentProps {
   content: any;
@@ -89,11 +88,6 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
                   >
                     {stat.value}
                   </Typography>
-                  {stat.type === "number" &&
-                    parseInt(stat.value?.toString().replace(/,/g, "") || "0") >
-                      0 && (
-                      <TrendingUpIcon sx={{ color: "#059669", fontSize: 14 }} />
-                    )}
                 </Box>
                 <Typography
                   variant="body2"
@@ -102,11 +96,10 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
                     mb: 0.25,
                     fontWeight: 500,
                     fontSize: "0.75rem",
-                    textAlign: "center",
-                    textTransform: "capitalize",
+                    textAlign: "center"
                   }}
                 >
-                  {stat.label}
+                  {stat.label.charAt(0).toUpperCase() + stat.label.slice(1)}
                 </Typography>
               </Box>
             </Box>
@@ -419,7 +412,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
           }}
         >
           <Typography sx={{ fontWeight: 600, fontSize: "0.85rem" }}>
-            {data.error_message}
+            {data.error_message && "There was an error processing your request. Please try again."}
           </Typography>
         </Alert>
 
@@ -570,10 +563,10 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
             variant="body2"
             sx={{
               color: "#374151",
-              fontSize: "0.85rem",
+              fontSize: "1rem",
               lineHeight: 1.5,
               whiteSpace: "pre-wrap",
-              fontWeight: 500,
+              fontWeight: 600,
             }}
           >
             {data.content}
@@ -605,7 +598,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
           <Box>
             <Typography
               variant="subtitle1"
-              sx={{ fontWeight: 700, color: "#000000", fontSize: "1.1rem" }}
+              sx={{ fontWeight: 700, color: "#000000", fontSize: "1rem" }}
             >
               Database Statistics
             </Typography>
