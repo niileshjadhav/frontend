@@ -29,17 +29,12 @@ interface Message {
   operationData?: any;
   structuredContent?: any;  // For structured content rendering
 }
-
-
-
 interface ChatBotProps {
   userId: string;
   userRole: string;
   selectedRegion: Region | null;
   regionStatus: Record<string, boolean>;
 }
-
-
 
 export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegion, regionStatus }) => {
   const [messages, setMessages] = useState<Message[]>([]);
