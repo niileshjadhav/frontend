@@ -341,11 +341,9 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
           <IconButton 
             size="small" 
             onClick={() => {
-              // Clear messages and reset initialization state
               setMessages([]);
               setLastInitializedRegion(undefined);
               setIsInitializing(false);
-              // This will trigger a new initial message
             }}
             title="Restart chat"
             sx={{
@@ -427,11 +425,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                     }}
                   >
                     {message.isBot ? (
-                      <img 
-                        src="/cloud_bot_colored.svg" 
-                        alt="AI" 
-                        style={{ width: 40, height: 40 }}
-                      />
+                      <></>
                     ) : (
                       <Box
                         sx={{
@@ -550,7 +544,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                 elevation={0} 
                 sx={{ 
                   p: 2, 
-                  background: 'transparent',
+                  backgroundColor: '#F0F0F0',
                   borderRadius: '20px 20px 20px 6px',
                   border: 'none',
                   boxShadow: 'none',

@@ -32,21 +32,30 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
         borderRadius: "16px",
       }}
     >
-      <CardContent sx={{ p: 2, pt: 0 }}>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+      <CardContent sx={{ p: 2}}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
           <Box>
-            <Typography
-              variant="subtitle1"
-              sx={{ fontWeight: 700, color: "#0f172a", fontSize: "1rem" }}
-            >
-              {data.title}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: "#64748b", fontSize: "0.8rem" }}
-            >
-              {data.region} Region • Table: {data.table_name}
-            </Typography>
+            <img
+              src="/cloud_bot_colored.svg"
+              alt="AI"
+              style={{ width: 40, height: 40 }}
+            />
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center"}}>
+            <Box>
+              <Typography
+                variant="subtitle1"
+                sx={{ fontWeight: 700, color: "#0f172a", fontSize: "1rem" }}
+              >
+                {data.title}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "#64748b", fontSize: "0.8rem" }}
+              >
+                {data.region} Region • Table: {data.table_name}
+              </Typography>
+            </Box>
           </Box>
         </Box>
 
@@ -80,11 +89,11 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
                   >
                     {stat.value}
                   </Typography>
-                  {stat.type === "number" && parseInt(stat.value?.toString().replace(/,/g, '') || '0') > 0 && (
-                    <TrendingUpIcon
-                      sx={{ color: "#059669", fontSize: 14 }}
-                    />
-                  )}
+                  {stat.type === "number" &&
+                    parseInt(stat.value?.toString().replace(/,/g, "") || "0") >
+                      0 && (
+                      <TrendingUpIcon sx={{ color: "#059669", fontSize: 14 }} />
+                    )}
                 </Box>
                 <Typography
                   variant="body2"
@@ -119,25 +128,30 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
           maxWidth: "400px",
         }}
       >
-        <CardContent sx={{ p: 3, pt: 0, textAlign: "center" }}>
+        <CardContent sx={{ p: 2, textAlign: "center" }}>
           <Box sx={{ mb: 2, textAlign: "left" }}>
-            <Typography
-              variant="subtitle1"
-              sx={{
-                fontWeight: 700,
-                color: "#0f172a",
-                fontSize: "1rem",
-                mb: 0.5,
-              }}
-            >
-              {data.title}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: "#64748b", fontSize: "0.8rem", mb: 2 }}
-            >
-              {data.region} Region
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+              <Box>
+                <img
+                  src="/cloud_bot_colored.svg"
+                  alt="AI"
+                  style={{ width: 40, height: 40 }}
+                />
+              </Box>
+              <Box>
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    fontWeight: 700,
+                    color: "#0f172a",
+                    fontSize: "1rem",
+                    mb: 0.5,
+                  }}
+                >
+                  {data.title}
+                </Typography>
+              </Box>
+            </Box>
           </Box>
 
           <Box
@@ -266,8 +280,15 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
         backgroundColor: "#F0F0F0",
       }}
     >
-      <CardContent sx={{ p: 2, pt: 0 }}>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+      <CardContent sx={{ p: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+          <Box>
+            <img
+              src="/cloud_bot_colored.svg"
+              alt="AI"
+              style={{ width: 40, height: 40 }}
+            />
+          </Box>
           <Box>
             <Typography
               variant="subtitle1"
@@ -311,8 +332,15 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
         backgroundColor: "#F0F0F0",
       }}
     >
-      <CardContent sx={{ p: 2, pt: 0 }}>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+      <CardContent sx={{ p: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+          <Box>
+            <img
+              src="/cloud_bot_colored.svg"
+              alt="AI"
+              style={{ width: 40, height: 40 }}
+            />
+          </Box>
           <Box>
             <Typography
               variant="subtitle1"
@@ -356,8 +384,15 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
         borderRadius: "16px",
       }}
     >
-      <CardContent sx={{ p: 2, pt: 0 }}>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+      <CardContent sx={{ p: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+          <Box>
+            <img
+              src="/cloud_bot_colored.svg"
+              alt="AI"
+              style={{ width: 40, height: 40 }}
+            />
+          </Box>
           <Box>
             <Typography
               variant="subtitle1"
@@ -443,8 +478,15 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
         borderRadius: "16px",
       }}
     >
-      <CardContent sx={{ p: 2, pt: 0 }}>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
+      <CardContent sx={{ p: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+          <Box>
+            <img
+              src="/cloud_bot_colored.svg"
+              alt="AI"
+              style={{ width: 40, height: 40 }}
+            />
+          </Box>
           <Box>
             <Typography
               variant="subtitle1"
@@ -498,11 +540,15 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
         backgroundColor: "#F0F0F0",
       }}
     >
-      <CardContent sx={{ p: 2, pt: 0 }}>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
-          <Typography variant="h4" sx={{ mr: 1, fontSize: "1.5rem" }}>
-            {data.icon}
-          </Typography>
+      <CardContent sx={{ p: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+          <Box>
+            <img
+              src="/cloud_bot_colored.svg"
+              alt="AI"
+              style={{ width: 40, height: 40 }}
+            />
+          </Box>
           <Box>
             <Typography
               variant="subtitle1"
@@ -547,8 +593,15 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
         borderRadius: "16px",
       }}
     >
-      <CardContent sx={{ p: 2, pt: 0 }}>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+      <CardContent sx={{ p: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+          <Box>
+            <img
+              src="/cloud_bot_colored.svg"
+              alt="AI"
+              style={{ width: 40, height: 40 }}
+            />
+          </Box>
           <Box>
             <Typography
               variant="subtitle1"
