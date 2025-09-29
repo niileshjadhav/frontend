@@ -28,6 +28,8 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
       elevation={0}
       sx={{
         maxWidth: "350px",
+        backgroundColor: "#F0F0F0",
+        borderRadius: "16px",
       }}
     >
       <CardContent sx={{ p: 2, pt: 0 }}>
@@ -55,46 +57,48 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
                 sx={{
                   p: 1.2,
                   borderRadius: "6px",
-                  backgroundColor: stat.highlight ? "#f8fafc" : "#ffffff",
+                  backgroundColor: "#ffffff",
                   textAlign: "center",
                 }}
               >
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: 700,
-                    color: stat.highlight ? "#0ea5e9" : "#0f172a",
-                    fontSize: stat.type === "number" ? "1.2rem" : "0.9rem",
-                    lineHeight: 1.2,
-                  }}
-                >
-                  {stat.value}
-                </Typography>
                 <Box
                   sx={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    gap: 1,
+                    gap: 0.5,
                   }}
                 >
                   <Typography
-                    variant="body2"
+                    variant="h6"
                     sx={{
-                      color: "#000000",
-                      mb: 0.25,
-                      fontWeight: 500,
-                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      color: stat.highlight ? "#0ea5e9" : "#0f172a",
+                      fontSize: stat.type === "number" ? "1.2rem" : "0.9rem",
+                      lineHeight: 1.2,
                     }}
                   >
-                    {stat.label}
+                    {stat.value}
                   </Typography>
-                      {stat.type === "number" && (
+                  {stat.type === "number" && parseInt(stat.value?.toString().replace(/,/g, '') || '0') > 0 && (
                     <TrendingUpIcon
-                      sx={{ color: "#059669", fontSize: 14, mt: 0.25 }}
+                      sx={{ color: "#059669", fontSize: 14 }}
                     />
                   )}
                 </Box>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "#000000",
+                    mb: 0.25,
+                    fontWeight: 500,
+                    fontSize: "0.75rem",
+                    textAlign: "center",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {stat.label}
+                </Typography>
               </Box>
             </Box>
           ))}
@@ -110,8 +114,8 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
       <Card
         elevation={0}
         sx={{
-          backgroundColor: "#ffffff",
-          borderRadius: "12px",
+          backgroundColor: "#F0F0F0",
+          borderRadius: "16px",
           maxWidth: "400px",
         }}
       >
@@ -257,8 +261,9 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
     <Card
       elevation={0}
       sx={{
-        borderRadius: "12px",
+        borderRadius: "16px",
         maxWidth: "350px",
+        backgroundColor: "#F0F0F0",
       }}
     >
       <CardContent sx={{ p: 2, pt: 0 }}>
@@ -300,9 +305,10 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
     <Card
       elevation={0}
       sx={{
-        borderRadius: "12px",
+        borderRadius: "16px",
         maxWidth: "100%",
         width: "100%",
+        backgroundColor: "#F0F0F0",
       }}
     >
       <CardContent sx={{ p: 2, pt: 0 }}>
@@ -346,6 +352,8 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
       sx={{
         maxWidth: "100%",
         width: "100%",
+        backgroundColor: "#F0F0F0",
+        borderRadius: "16px",
       }}
     >
       <CardContent sx={{ p: 2, pt: 0 }}>
@@ -431,6 +439,8 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
       elevation={0}
       sx={{
         maxWidth: "350px",
+        backgroundColor: "#F0F0F0",
+        borderRadius: "16px",
       }}
     >
       <CardContent sx={{ p: 2, pt: 0 }}>
@@ -482,9 +492,10 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
     <Card
       elevation={0}
       sx={{
-        borderRadius: "12px",
+        borderRadius: "16px",
         maxWidth: "100%",
         width: "100%",
+        backgroundColor: "#F0F0F0",
       }}
     >
       <CardContent sx={{ p: 2, pt: 0 }}>
@@ -532,6 +543,8 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
       sx={{
         width: "100%",
         maxWidth: "100%",
+        backgroundColor: "#F0F0F0",
+        borderRadius: "16px",
       }}
     >
       <CardContent sx={{ p: 2, pt: 0 }}>
@@ -756,8 +769,8 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
         <Box
           sx={{
             p: 2,
-            borderRadius: "8px",
-            backgroundColor: "#f8fafc",
+            borderRadius: "16px",
+            backgroundColor: "#F0F0F0",
             border: "1px solid #e2e8f0",
           }}
         >

@@ -17,7 +17,6 @@ import {
 } from '@mui/icons-material';
 import { apiService, type ChatResponse, type ChatMessage } from '../services/api';
 import type { Region } from '../types/region';
-import ConfirmationDialog from './ConfirmationDialog';
 import StructuredContentRenderer from './StructuredContentRenderer';
 
 interface Message {
@@ -40,19 +39,13 @@ interface ChatBotProps {
   regionStatus: Record<string, boolean>;
 }
 
-interface PendingConfirmation {
-  confirmationId: string;
-  operation: string;
-  details: string;
-  originalMessage: string;
-}
+
 
 export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegion, regionStatus }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId] = useState(() => `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
-  const [pendingConfirmation, setPendingConfirmation] = useState<PendingConfirmation | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -117,7 +110,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
     } catch (error) {
       console.error('Error sending initial message:', error);
       const roleCapabilities = userRole === 'Admin' 
-        ? 'you have full access to all operations including archiving and deletion'
+        ? 'you have access to all operations including archiving and deletion'
         : 'you have read-only access for viewing data';
         
       const connectionMessage = isRegionConnected() 
@@ -195,16 +188,6 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
 
       const response = await apiService.chatWithAgent(chatMessage);
       
-      // Check if this response requires confirmation
-      if (response.requires_confirmation && response.operation_data) {
-        setPendingConfirmation({
-          confirmationId: response.operation_data.confirmation_id,
-          operation: response.operation_data.operation,
-          details: response.operation_data.details,
-          originalMessage: messageText,
-        });
-      }
-      
       addBotMessage(response);
     } catch (error) {
       console.error('Error sending message:', error);
@@ -224,33 +207,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
     }, 0);
   };
 
-  const handleConfirmOperation = async () => {
-    if (!pendingConfirmation) return;
 
-    try {
-      setIsLoading(true);
-      const response = await apiService.confirmChatOperation(pendingConfirmation.confirmationId);
-      addBotMessage(response);
-      setPendingConfirmation(null);
-    } catch (error) {
-      console.error('Error confirming operation:', error);
-      addBotMessage({
-        response: `Failed to confirm operation: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        suggestions: [],
-        requires_confirmation: false,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleCancelOperation = () => {
-    addBotMessage({
-      response: 'Operation cancelled. No changes have been made.',
-      requires_confirmation: false,
-    });
-    setPendingConfirmation(null);
-  };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -775,24 +732,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
       </CardContent>
       </Card>
 
-      {/* Confirmation Dialog */}
-      {pendingConfirmation && (
-        <ConfirmationDialog
-          open={true}
-          onClose={handleCancelOperation}
-          onConfirm={handleConfirmOperation}
-          operationType={pendingConfirmation.operation.toUpperCase() as 'ARCHIVE' | 'DELETE'}
-          operationData={{
-            table: pendingConfirmation.details.split(' ')[0], // Extract table name
-            count: parseInt(pendingConfirmation.details.match(/\d+/)?.[0] || '0'),
-            dateRange: pendingConfirmation.details.includes('from') ? 
-              pendingConfirmation.details.split('from ')[1]?.split(' to ')[0] + ' to ' + 
-              pendingConfirmation.details.split(' to ')[1] : 
-              'N/A'
-          }}
-          loading={isLoading}
-        />
-      )}
+
     </Box>
   );
 };
