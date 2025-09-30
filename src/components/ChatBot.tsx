@@ -481,59 +481,6 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                     </Typography>
                   </Box>
                 </Box>
-
-                {/* Enhanced Suggestions */}
-                {message.suggestions && message.suggestions.length > 0 && (
-                  <Box sx={{ mt: 2 }}>
-                    <Typography 
-                      variant="caption" 
-                      sx={{ 
-                        opacity: 0.8, 
-                        mb: 1.5, 
-                        display: 'block',
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                        fontSize: '0.7rem',
-                        letterSpacing: '0.05em',
-                      }}
-                    >
-                      Quick Actions
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                      {message.suggestions.map((suggestion, index) => (
-                        <Chip
-                          key={index}
-                          label={suggestion}
-                          size="small"
-                          variant="outlined"
-                          clickable
-                          onClick={() => handleSuggestionClick(suggestion)}
-                          sx={{ 
-                            fontSize: '0.75rem',
-                            height: '28px',
-                            borderRadius: '14px',
-                            background: message.isBot 
-                              ? 'rgba(255, 255, 255, 0.9)'
-                              : 'rgba(255, 255, 255, 0.2)',
-                            border: message.isBot 
-                              ? '1px solid rgba(0, 169, 206, 0.3)'
-                              : '1px solid rgba(255, 255, 255, 0.3)',
-                            color: message.isBot ? 'text.primary' : 'white',
-                            backdropFilter: 'blur(10px)',
-                            transition: 'all 0.2s ease-in-out',
-                            '&:hover': {
-                              background: message.isBot 
-                                ? 'rgba(0, 169, 206, 0.1)'
-                                : 'rgba(255, 255, 255, 0.3)',
-                              transform: 'translateY(-1px)',
-                              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                            }
-                          }}
-                        />
-                      ))}
-                    </Box>
-                  </Box>
-                )}
               </Paper>
             </Box>
           ))}

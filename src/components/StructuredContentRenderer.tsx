@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   Chip,
-  Alert,
   Button,
 } from "@mui/material";
 
@@ -31,7 +30,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
         borderRadius: "16px",
       }}
     >
-      <CardContent sx={{ p: 2}}>
+      <CardContent sx={{ p: 2 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
           <Box>
             <img
@@ -40,7 +39,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
               style={{ width: 40, height: 40 }}
             />
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center"}}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <Box>
               <Typography
                 variant="subtitle1"
@@ -96,10 +95,12 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
                     mb: 0.25,
                     fontWeight: 500,
                     fontSize: "0.75rem",
-                    textAlign: "center"
+                    textAlign: "center",
                   }}
                 >
-                  {stat.label.charAt(0).toUpperCase() + stat.label.slice(1)}
+                  {stat.label == "None"
+                    ? "Total records"
+                    : stat.label.charAt(0).toUpperCase() + stat.label.slice(1)}
                 </Typography>
               </Box>
             </Box>
@@ -123,7 +124,9 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
       >
         <CardContent sx={{ p: 2, textAlign: "center" }}>
           <Box sx={{ mb: 2, textAlign: "left" }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+            <Box
+              sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}
+            >
               <Box>
                 <img
                   src="/cloud_bot_colored.svg"
@@ -131,18 +134,42 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
                   style={{ width: 40, height: 40 }}
                 />
               </Box>
-              <Box>
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    fontWeight: 700,
-                    color: "#0f172a",
-                    fontSize: "1rem",
-                    mb: 0.5,
-                  }}
-                >
-                  {data.title}
-                </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "left",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      fontWeight: 700,
+                      color: "#0f172a",
+                      fontSize: "1rem",
+                      mb: 0.5,
+                    }}
+                  >
+                    {data.title}
+                  </Typography>
+                </Box>
+                {data.table && (
+                  <Box>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: "#535b67ff",
+                        fontWeight: 500,
+                        fontSize: "0.85rem",
+                        mt: 0.25,
+                      }}
+                    >
+                      Table : <strong>{data.table}</strong>
+                    </Typography>
+                  </Box>
+                )}
               </Box>
             </Box>
           </Box>
@@ -402,19 +429,10 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
           </Box>
         </Box>
 
-        <Alert
-          severity="error"
-          sx={{
-            borderRadius: "8px",
-            backgroundColor: "#fef2f2",
-            border: "1px solid #ef4444",
-            mb: 1.5,
-          }}
-        >
-          <Typography sx={{ fontWeight: 600, fontSize: "0.85rem" }}>
-            {data.error_message && "There was an error processing your request. Please try again."}
-          </Typography>
-        </Alert>
+        <Typography sx={{ fontWeight: 600, fontSize: "1rem" }}>
+          {data.error_message &&
+            "There was an error processing your request. Please try again."}
+        </Typography>
 
         {data.suggestions && data.suggestions.length > 0 && (
           <Box sx={{ mt: 1.5 }}>
@@ -442,17 +460,19 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
                   onClick={() => onSuggestionClick?.(suggestion)}
                   sx={{
                     fontSize: "0.75rem",
-                    backgroundColor: "#fef2f2",
-                    color: "#dc2626",
-                    border: "1px solid #ef4444",
-                    cursor: "pointer",
-                    "&:hover": {
-                      backgroundColor: "#fee2e2",
-                      transform: "translateY(-1px)",
-                    },
+                    height: "28px",
+                    borderRadius: "14px",
+                    background: "rgba(255, 255, 255, 0.9)",
+                    border: "1px solid rgba(0, 169, 206, 0.3)",
+                    color: "text.primary",
+                    backdropFilter: "blur(10px)",
                     transition: "all 0.2s ease-in-out",
+                    "&:hover": {
+                      background: "rgba(0, 169, 206, 0.1)",
+                      transform: "translateY(-1px)",
+                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                    },
                   }}
-                  variant="outlined"
                 />
               ))}
             </Box>
@@ -491,7 +511,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
               variant="body2"
               sx={{ color: "#64748b", fontSize: "0.8rem" }}
             >
-              {data.region} Region
+              {data.region} Region{data.table ? ` • Table: ${data.table}` : ""}
             </Typography>
           </Box>
         </Box>
@@ -519,6 +539,103 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
               </Typography>
             ))}
         </Box>
+      </CardContent>
+    </Card>
+  );
+
+  const renderClarificationCard = (data: any) => (
+    <Card
+      elevation={0}
+      sx={{
+        borderRadius: "16px",
+        maxWidth: "100%",
+        width: "100%",
+        backgroundColor: "#F0F0F0",
+      }}
+    >
+      <CardContent sx={{ p: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+          <Box>
+            <img
+              src="/cloud_bot_colored.svg"
+              alt="AI"
+              style={{ width: 40, height: 40 }}
+            />
+          </Box>
+          <Box>
+            <Typography
+              variant="subtitle1"
+              sx={{ fontWeight: 700, color: "#0f172a", fontSize: "1rem" }}
+            >
+              {data.title}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ color: "#64748b", fontSize: "0.8rem" }}
+            >
+              {data.region} Region
+            </Typography>
+          </Box>
+        </Box>
+
+        <Box sx={{ mb: 1.5 }}>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "#374151",
+              fontSize: "0.85rem",
+              lineHeight: 1.5,
+              whiteSpace: "pre-wrap",
+            }}
+          >
+            {data.message}
+          </Typography>
+        </Box>
+
+        {data.suggestions && data.suggestions.length > 0 && (
+          <Box sx={{ mt: 1.5 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                opacity: 0.8,
+                mb: 1,
+                display: "block",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                fontSize: "0.7rem",
+                letterSpacing: "0.05em",
+              }}
+            >
+              uggestions
+            </Typography>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+              {data.suggestions.map((suggestion: string, index: number) => (
+                <Chip
+                  key={index}
+                  label={suggestion}
+                  size="small"
+                  clickable
+                  onClick={() => onSuggestionClick?.(suggestion)}
+                  sx={{
+                    fontSize: "0.75rem",
+                    height: "28px",
+                    borderRadius: "14px",
+                    background: "rgba(255, 255, 255, 0.9)",
+                    border: "1px solid rgba(0, 169, 206, 0.3)",
+                    color: "text.primary",
+                    backdropFilter: "blur(10px)",
+                    transition: "all 0.2s ease-in-out",
+                    "&:hover": {
+                      background: "rgba(190, 233, 243, 0.1)",
+                      transform: "translateY(-1px)",
+                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                    },
+                  }}
+                />
+              ))}
+            </Box>
+          </Box>
+        )}
       </CardContent>
     </Card>
   );
@@ -655,7 +772,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
                         variant="body2"
                         sx={{ color: "#ef4444", fontSize: "0.75rem" }}
                       >
-                        ❌ Error: {table.error}
+                        Error: {table.error}
                       </Typography>
                     ) : (
                       <Typography
@@ -803,6 +920,8 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
       return renderSuccessCard(content);
     case "conversational_card":
       return renderConversationalCard(content);
+    case "clarification_card":
+      return renderClarificationCard(content);
     case "welcome_card":
       return renderWelcomeCard(content);
     case "error_card":
