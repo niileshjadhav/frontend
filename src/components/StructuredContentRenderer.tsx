@@ -860,7 +860,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
                         variant="body2"
                         sx={{ color: "#ef4444", fontSize: "0.75rem" }}
                       >
-                        ❌ Error: {table.error}
+                        Error: {table.error}
                       </Typography>
                     ) : (
                       <Typography
