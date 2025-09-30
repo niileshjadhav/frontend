@@ -606,7 +606,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
                 letterSpacing: "0.05em",
               }}
             >
-              uggestions
+              Suggestions
             </Typography>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
               {data.suggestions.map((suggestion: string, index: number) => (
@@ -908,12 +908,88 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
     </Card>
   );
 
+  const renderRegionStatusCard = (data: any) => {
+    const totalRegions = data.summary?.total_regions || 0;
+    const connectedCount = data.summary?.connected_count || 0;
+    const availableRegions = data.available_regions || [];
+    const connectedRegions = data.connected_regions || [];
+    
+    let mainSentence = "";
+    if (connectedCount === 0) {
+      mainSentence = `There are ${totalRegions} regions available (${availableRegions.map((r: string) => r.toUpperCase()).join(', ')}), of which currently none is connected.`;
+    } else if (connectedCount === 1) {
+      const connectedRegion = connectedRegions[0];
+      mainSentence = `There are ${totalRegions} regions available (${availableRegions.map((r: string) => r.toUpperCase()).join(', ')}), of which currently ${connectedRegion.toUpperCase()} is connected.`;
+    } else {
+      const connectedList = connectedRegions.map((r: string) => r.toUpperCase()).join(', ');
+      mainSentence = `There are ${totalRegions} regions available (${availableRegions.map((r: string) => r.toUpperCase()).join(', ')}), of which currently ${connectedList} are connected.`;
+    }
+
+    return (
+      <Card
+        elevation={0}
+        sx={{
+          width: "100%",
+          backgroundColor: "#F0F0F0",
+          borderRadius: "16px",
+        }}
+      >
+        <CardContent sx={{ p: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2}}>
+            <Box>
+              <img
+                src="/cloud_bot_colored.svg"
+                alt="AI"
+                style={{ width: 40, height: 40 }}
+              />
+            </Box>
+            <Box>
+              <Typography
+                variant="subtitle1"
+                sx={{ fontWeight: 700, color: "#000000", fontSize: "1rem" }}
+              >
+                {data.title}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "#64748b", fontSize: "0.8rem" }}
+              >
+                🌐 Region Information
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* Main sentence */}
+          <Box sx={{ mb: 2 }}>
+            <Typography
+              variant="body1"
+              sx={{
+                color: "#000000",
+                fontSize: "0.9rem",
+                lineHeight: 1.5,
+                fontWeight: 500,
+                backgroundColor: "#ffffff",
+                p: 1.5,
+                borderRadius: "8px",
+                border: "1px solid #e5e7eb",
+              }}
+            >
+              {mainSentence}
+            </Typography>
+          </Box>
+        </CardContent>
+      </Card>
+    );
+  };
+
   // Main rendering logic
   switch (content.type) {
     case "stats_card":
       return renderStatsCard(content);
     case "database_overview":
       return renderDatabaseOverviewCard(content);
+    case "region_status_card":
+      return renderRegionStatusCard(content);
     case "confirmation_card":
       return renderConfirmationCard(content);
     case "success_card":
