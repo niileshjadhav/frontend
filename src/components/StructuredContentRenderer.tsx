@@ -25,7 +25,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
     <Card
       elevation={0}
       sx={{
-        maxWidth: "350px",
+        maxWidth: "390px",
         backgroundColor: "#F0F0F0",
         borderRadius: "16px",
       }}
@@ -49,9 +49,9 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ color: "#64748b", fontSize: "0.8rem" }}
+                sx={{ color: "#000000", fontSize: "0.8rem" }}
               >
-                {data.region} Region • Table: {data.table_name}
+                Region: <strong>{data.region}</strong> • Table: <strong>{data.table_name}</strong>
               </Typography>
             </Box>
           </Box>
@@ -296,7 +296,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
       elevation={0}
       sx={{
         borderRadius: "16px",
-        maxWidth: "350px",
+        maxWidth: "410px",
         backgroundColor: "#F0F0F0",
       }}
     >
@@ -509,9 +509,9 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: "#64748b", fontSize: "0.8rem" }}
+              sx={{ color: "#000000", fontSize: "0.8rem" }}
             >
-              {data.region} Region{data.table ? ` • Table: ${data.table}` : ""}
+              Region: <strong>{data.region}</strong> • Table: <strong>{data.table}</strong>
             </Typography>
           </Box>
         </Box>
