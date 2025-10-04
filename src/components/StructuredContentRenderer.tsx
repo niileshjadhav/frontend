@@ -51,7 +51,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
                 variant="body2"
                 sx={{ color: "#000000", fontSize: "0.8rem" }}
               >
-                Region: <strong>{data.region}</strong> • Table: <strong>{data.table_name}</strong>
+                Region: <strong>{data.region}</strong> {data.table_name && <>• Table: <strong>{data.table_name}</strong></>} {data.filter_description && <>• <strong>{data.filter_description}</strong></>}
               </Typography>
             </Box>
           </Box>
@@ -318,9 +318,9 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: "#64748b", fontSize: "0.8rem" }}
+              sx={{ color: "#000000", fontSize: "0.8rem" }}
             >
-              {data.region} Region
+              Region: <strong>{data.region}</strong>
             </Typography>
           </Box>
         </Box>
@@ -571,9 +571,9 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: "#64748b", fontSize: "0.8rem" }}
+              sx={{ color: "#000000", fontSize: "0.8rem" }}
             >
-              {data.region} Region
+              Region: <strong>{data.region}</strong>
             </Typography>
           </Box>
         </Box>
@@ -693,6 +693,241 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
     </Card>
   );
 
+  const renderJobLogsTableCard = (data: any) => (
+    <Card
+      elevation={0}
+      sx={{
+        width: "100%",
+        maxWidth: "100%",
+        backgroundColor: "#F0F0F0",
+        borderRadius: "16px",
+      }}
+    >
+      <CardContent sx={{ p: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+          <Box>
+            <img
+              src="/cloud_bot_colored.svg"
+              alt="AI"
+              style={{ width: 40, height: 40 }}
+            />
+          </Box>
+          <Box>
+            <Typography
+              variant="subtitle1"
+              sx={{ fontWeight: 700, color: "#000000", fontSize: "1rem" }}
+            >
+              {data.title || "Job Logs"}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ color: "#00000", fontSize: "0.8rem" }}
+            >
+              Region <strong>{data.region} </strong>
+              {(data.records?.length) > 1 && (
+                <> • Showing {data.records?.length || 0} of {data.total_count || 0} jobs</>
+              )}
+            </Typography>
+          </Box>
+        </Box>
+
+
+
+        {/* Job logs table */}
+        {data.records && Array.isArray(data.records) && data.records.length > 0 && (
+          <Box sx={{ overflowX: "auto" }}>
+            <Box sx={{ minWidth: "800px" }}>
+              {/* Table header */}
+              <Box sx={{ 
+                display: "grid", 
+                gridTemplateColumns: "90px 160px 90px 90px 130px 130px 300px",
+                gap: 1,
+                p: 1.5,
+                backgroundColor: "#e5e7eb",
+                borderRadius: "8px 8px 0 0"
+              }}>
+                <Typography variant="caption" sx={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151" }}>Type</Typography>
+                <Typography variant="caption" sx={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151" }}>Table</Typography>
+                <Typography variant="caption" sx={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151" }}>Status</Typography>
+                <Typography variant="caption" sx={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151" }}>Records</Typography>
+                <Typography variant="caption" sx={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151" }}>Started</Typography>
+                <Typography variant="caption" sx={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151" }}>Finished</Typography>
+                <Typography variant="caption" sx={{ fontSize: "0.75rem", fontWeight: 600, color: "#374151" }}>Reason</Typography>
+              </Box>
+
+              {/* Table rows */}
+              {data.records.map((record: any, index: number) => {
+                
+                return (
+                  <Box key={record.id || index} sx={{
+                    display: "grid",
+                    gridTemplateColumns: "90px 160px 90px 90px 130px 130px 300px",
+                    gap: 1,
+                    p: 1.5,
+                    backgroundColor: index % 2 === 0 ? "#ffffff" : "#f9fafb",
+                    borderBottom: index === data.records.length - 1 ? "none" : "1px solid #e5e7eb",
+                    alignItems: "center"
+                  }}>
+                    <Box>
+                      <Chip 
+                        label={record?.job_type || 'UNKNOWN'} 
+                        size="small" 
+                        sx={{ 
+                          backgroundColor: (() => {
+                            switch(record?.job_type) {
+                              case 'ARCHIVE': return '#3b82f6';
+                              case 'DELETE': return '#ef4444';
+                              case 'OTHER': return '#6b7280';
+                              default: return '#6b7280';
+                            }
+                          })(),
+                          color: "white", 
+                          fontSize: "0.7rem",
+                          height: "20px"
+                        }} 
+                      />
+                    </Box>
+                    <Typography variant="body2" sx={{ fontWeight: 500, color: "#111827", fontSize: "0.8rem" }}>
+                      {record?.table_name || '-'}
+                    </Typography>
+                    <Box>
+                      <Chip 
+                        label={record?.status || 'UNKNOWN'} 
+                        size="small" 
+                        sx={{ 
+                          backgroundColor: (() => {
+                            switch(record?.status) {
+                              case 'SUCCESS': return '#10b981';
+                              case 'FAILED': return '#ef4444';
+                              case 'IN_PROGRESS': return '#f59e0b';
+                              default: return '#6b7280';
+                            }
+                          })(),
+                          color: "white", 
+                          fontSize: "0.7rem",
+                          height: "20px"
+                        }} 
+                      />
+                    </Box>
+                    <Typography variant="body2" sx={{ textAlign: "left", fontWeight: 600, color: "#111827", fontSize: "0.8rem" }}>
+                      {record?.records_affected?.toLocaleString() || "0"}
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontFamily: "monospace", color: "#6b7280", fontSize: "0.8rem" }}>
+                      {(() => {
+                        if (!record?.started_at) return '-';
+                        try {
+                          return new Date(record.started_at).toLocaleString('en-US', {
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          });
+                        } catch (e) {
+                          return String(record.started_at).substring(0, 16);
+                        }
+                      })()}
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontFamily: "monospace", color: "#6b7280", fontSize: "0.8rem" }}>
+                      {(() => {
+                        if (!record?.finished_at) return '-';
+                        try {
+                          return new Date(record.finished_at).toLocaleString('en-US', {
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          });
+                        } catch (e) {
+                          return String(record.finished_at).substring(0, 16);
+                        }
+                      })()}
+                    </Typography>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        color: "#6b7280", 
+                        fontSize: "0.8rem",
+                        lineHeight: 1.4,
+                        wordBreak: "break-word"
+                      }} 
+                      title={record?.reason || ''}
+                    >
+                      {record?.reason || '-'}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </Box>
+          </Box>
+        )}
+
+        {/* Pagination info */}
+        {(data.total_count || 0) > (data.records?.length || 0) && (data.records?.length || 0) > 0 && (
+          <Box sx={{ mt: 2, textAlign: "center" }}>
+            <Typography variant="body2" sx={{ color: "#6b7280", fontSize: "0.8rem" }}>
+              {data.records?.length > 1 && `Showing ${data.records?.length } of ${data.total_count} total records`}
+            </Typography>
+          </Box>
+        )}
+
+        {/* Empty state for no records */}
+        {(!data.records || data.records.length === 0) && (
+          <Box sx={{ textAlign: "center", py: 4 }}>
+            <Typography variant="body2" sx={{ color: "#6b7280", fontSize: "0.9rem" }}>
+              No job logs found matching the current criteria.
+            </Typography>
+          </Box>
+        )}
+
+        {/* Suggestions */}
+        {data.suggestions && data.suggestions.length > 0 && (
+          <Box sx={{ mt: 2 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                opacity: 0.8,
+                mb: 1,
+                display: "block",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                fontSize: "0.7rem",
+                letterSpacing: "0.05em",
+              }}
+            >
+              Suggestions
+            </Typography>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+              {data.suggestions.map((suggestion: string, index: number) => (
+                <Chip
+                  key={index}
+                  label={suggestion}
+                  size="small"
+                  clickable
+                  onClick={() => onSuggestionClick?.(suggestion)}
+                  sx={{
+                    fontSize: "0.75rem",
+                    height: "28px",
+                    borderRadius: "14px",
+                    background: "rgba(255, 255, 255, 0.9)",
+                    border: "1px solid rgba(0, 169, 206, 0.3)",
+                    color: "text.primary",
+                    backdropFilter: "blur(10px)",
+                    transition: "all 0.2s ease-in-out",
+                    "&:hover": {
+                      background: "rgba(0, 169, 206, 0.1)",
+                      transform: "translateY(-1px)",
+                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                    },
+                  }}
+                />
+              ))}
+            </Box>
+          </Box>
+        )}
+      </CardContent>
+    </Card>
+  );
+
   const renderDatabaseOverviewCard = (data: any) => (
     <Card
       elevation={0}
@@ -721,9 +956,9 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: "#64748b", fontSize: "0.8rem" }}
+              sx={{ color: "#000000", fontSize: "0.8rem" }}
             >
-              {data.region} Region • {data.summary?.main_tables_count || 0} main
+              Region: <strong>{data.region}</strong> • {data.summary?.main_tables_count || 0} main
               tables • {data.summary?.archive_tables_count || 0} archive tables
             </Typography>
           </Box>
@@ -990,6 +1225,8 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
       return renderDatabaseOverviewCard(content);
     case "region_status_card":
       return renderRegionStatusCard(content);
+    case "job_logs_table":
+      return renderJobLogsTableCard(content);
     case "confirmation_card":
       return renderConfirmationCard(content);
     case "success_card":

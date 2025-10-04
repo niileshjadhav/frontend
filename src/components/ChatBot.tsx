@@ -662,6 +662,28 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                   }
                 }}
               />
+              <Chip
+                label="Show jobs statistics"
+                size="small"
+                variant="outlined"
+                clickable
+                onClick={() => handleSuggestionClick("Show jobs statistics")}
+                sx={{
+                  fontSize: '0.75rem',
+                  height: '28px',
+                  borderRadius: '14px',
+                  background: 'rgba(255, 255, 255, 0.9)',
+                  border: '1px solid rgba(0, 169, 206, 0.3)',
+                  color: 'text.primary',
+                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.2s ease-in-out',
+                  '&:hover': {
+                    background: 'rgba(0, 169, 206, 0.1)',
+                    transform: 'translateY(-1px)',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                  }
+                }}
+              />
             </Box>
           </Box>
         </Box>
