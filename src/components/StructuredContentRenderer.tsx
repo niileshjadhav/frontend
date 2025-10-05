@@ -1143,23 +1143,10 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
     </Card>
   );
 
-  const renderRegionStatusCard = (data: any) => {
-    const totalRegions = data.summary?.total_regions || 0;
-    const connectedCount = data.summary?.connected_count || 0;
-    const availableRegions = data.available_regions || [];
-    const connectedRegions = data.connected_regions || [];
+  const renderRegionCard = (data: any) => {
+    const content = data.content || '';
+    const isShortResponse = content.length < 50;
     
-    let mainSentence = "";
-    if (connectedCount === 0) {
-      mainSentence = `There are ${totalRegions} regions available (${availableRegions.map((r: string) => r.toUpperCase()).join(', ')}), of which currently none is connected.`;
-    } else if (connectedCount === 1) {
-      const connectedRegion = connectedRegions[0];
-      mainSentence = `There are ${totalRegions} regions available (${availableRegions.map((r: string) => r.toUpperCase()).join(', ')}), of which currently ${connectedRegion.toUpperCase()} is connected.`;
-    } else {
-      const connectedList = connectedRegions.map((r: string) => r.toUpperCase()).join(', ');
-      mainSentence = `There are ${totalRegions} regions available (${availableRegions.map((r: string) => r.toUpperCase()).join(', ')}), of which currently ${connectedList} are connected.`;
-    }
-
     return (
       <Card
         elevation={0}
@@ -1170,7 +1157,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
         }}
       >
         <CardContent sx={{ p: 2 }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2}}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
             <Box>
               <img
                 src="/cloud_bot_colored.svg"
@@ -1183,7 +1170,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
                 variant="subtitle1"
                 sx={{ fontWeight: 700, color: "#000000", fontSize: "1rem" }}
               >
-                {data.title}
+                {data.title || "Region Information"}
               </Typography>
               <Typography
                 variant="body2"
@@ -1194,22 +1181,23 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
             </Box>
           </Box>
 
-          {/* Main sentence */}
-          <Box sx={{ mb: 2 }}>
+          <Box sx={{ mb: 1.5 }}>
             <Typography
               variant="body1"
               sx={{
                 color: "#000000",
-                fontSize: "0.9rem",
+                fontSize: isShortResponse ? "1.1rem" : "0.9rem",
                 lineHeight: 1.5,
                 fontWeight: 500,
                 backgroundColor: "#ffffff",
-                p: 1.5,
+                p: isShortResponse ? 2 : 1.5,
                 borderRadius: "8px",
                 border: "1px solid #e5e7eb",
+                textAlign: "left",
+                whiteSpace: "pre-wrap",
               }}
             >
-              {mainSentence}
+              {content}
             </Typography>
           </Box>
         </CardContent>
@@ -1224,7 +1212,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
     case "database_overview":
       return renderDatabaseOverviewCard(content);
     case "region_status_card":
-      return renderRegionStatusCard(content);
+      return renderRegionCard(content);
     case "job_logs_table":
       return renderJobLogsTableCard(content);
     case "confirmation_card":
