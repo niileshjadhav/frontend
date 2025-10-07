@@ -1205,6 +1205,62 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
     );
   };
 
+  const renderAnalysisCard = (data: any) => (
+    <Card
+      elevation={0}
+      sx={{
+        width: "100%",
+        backgroundColor: "#F0F0F0",
+        borderRadius: "16px",
+      }}
+    >
+      <CardContent sx={{ p: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+          <Box>
+            <img
+              src="/cloud_bot_colored.svg"
+              alt="AI"
+              style={{ width: 40, height: 40 }}
+            />
+          </Box>
+          <Box>
+            <Typography
+              variant="subtitle1"
+              sx={{ fontWeight: 700, color: "#0f172a", fontSize: "1rem" }}
+            >
+              {data.title || "Intelligent Analysis"}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ color: "#64748b", fontSize: "0.8rem" }}
+            >
+              Region: <strong>{data.region}</strong> • AI Analysis
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Main analysis content */}
+        <Box sx={{ mb: 2 }}>
+          <Typography
+            variant="body1"
+            sx={{
+              color: "#374151",
+              fontSize: "0.95rem",
+              lineHeight: 1.6,
+              whiteSpace: "pre-wrap",
+              backgroundColor: "#ffffff",
+              p: 2,
+              borderRadius: "8px",
+              border: "1px solid #e5e7eb",
+            }}
+          >
+            {data.analysis_content}
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+
   // Main rendering logic
   switch (content.type) {
     case "stats_card":
@@ -1229,6 +1285,8 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
       return renderErrorCard(content);
     case "cancelled_card":
       return renderCancelledCard(content);
+    case "analysis_card":
+      return renderAnalysisCard(content);
     default:
       // Fallback to plain JSON display for unknown types
       return (
