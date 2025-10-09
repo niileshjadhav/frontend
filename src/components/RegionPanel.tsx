@@ -201,10 +201,11 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
   return (
     <Card 
       sx={{ 
-        borderRadius: '20px',
+        borderRadius: '8px',
         background: 'linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)',
         boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.2)',
         border: 'none',
+        borderTop: '4px solid #00A9CE',
         overflow: 'hidden',
       }}
     >
@@ -244,7 +245,7 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
           </Typography>
         </Box>
 
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ px: 3, pt: 3, pb: 0 }}>
           {error && (
             <Alert 
               severity="error" 

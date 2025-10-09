@@ -111,7 +111,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
       const connectionMessage = isRegionConnected() 
         ? `Currently connected to ${selectedRegion} region`
         : selectedRegion 
-          ? `Region ${selectedRegion} is selected but not connected. Please connect to the region first.`
+          ? `Region ${selectedRegion} is selected. Please connect to the region first.`
           : 'Please select and connect to a region to get started';
 
       addBotMessage({
@@ -162,7 +162,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
       
       addBotMessage({
         response: selectedRegion 
-          ? `Region ${selectedRegion} is selected but not connected. Please connect to the region first to perform database operations.`
+          ? `Region ${selectedRegion} is selected. Please connect to the region first to perform database operations.`
           : 'No region is connected. Please select and connect to a region first to perform database operations.',
         requires_confirmation: false,
       });
