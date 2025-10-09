@@ -11,11 +11,13 @@ import {
 interface StructuredContentProps {
   content: any;
   onSuggestionClick?: (suggestion: string) => void;
+  onDirectConfirmation?: (operation: string, confirmed: boolean, operationData: any) => Promise<void>;
 }
 
 const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
   content,
   onSuggestionClick,
+  onDirectConfirmation,
 }) => {
   if (!content || typeof content !== "object") {
     return null;
@@ -237,11 +239,15 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
             <Button
               variant="contained"
               color="error"
-              onClick={() =>
-                onSuggestionClick?.(
-                  `CONFIRM ${isDelete ? "DELETE" : "ARCHIVE"}`
-                )
-              }
+              onClick={() => {
+                if (onDirectConfirmation) {
+                  onDirectConfirmation(isDelete ? "DELETE" : "ARCHIVE", true, data);
+                } else {
+                  onSuggestionClick?.(
+                    `CONFIRM ${isDelete ? "DELETE" : "ARCHIVE"}`
+                  );
+                }
+              }}
               sx={{
                 backgroundColor: "#dc2626",
                 color: "#ffffff",
@@ -263,7 +269,13 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
             </Button>
             <Button
               variant="outlined"
-              onClick={() => onSuggestionClick?.("CANCEL")}
+              onClick={() => {
+                if (onDirectConfirmation) {
+                  onDirectConfirmation(isDelete ? "DELETE" : "ARCHIVE", false, data);
+                } else {
+                  onSuggestionClick?.("CANCEL");
+                }
+              }}
               sx={{
                 backgroundColor: "#ffffff",
                 color: "#6b7280",
@@ -431,7 +443,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
 
         <Typography sx={{ fontWeight: 600, fontSize: "1rem" }}>
           {data.error_message &&
-            "There was an error processing your request. Please try again."}
+            "I am unable to assist on this request. Please try again with different phrasing."}
         </Typography>
 
         {data.suggestions && data.suggestions.length > 0 && (
@@ -486,7 +498,7 @@ const StructuredContentRenderer: React.FC<StructuredContentProps> = ({
     <Card
       elevation={0}
       sx={{
-        maxWidth: "350px",
+        maxWidth: "380px",
         backgroundColor: "#F0F0F0",
         borderRadius: "16px",
       }}

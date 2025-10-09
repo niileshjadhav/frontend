@@ -283,6 +283,20 @@ class ApiService {
     });
   }
 
+  // Confirm archive/delete operations with structured data
+  async confirmOperation(confirmation: {
+    operation: string;
+    table: string;
+    region: string;
+    filters: any;
+    confirmed: boolean;
+  }): Promise<ChatResponse> {
+    return this.request('/chat/confirm', {
+      method: 'POST',
+      body: JSON.stringify(confirmation),
+    });
+  }
+
   // Region management
   async getAvailableRegions(): Promise<string[]> {
     const response = await this.request<{regions: string[], connection_status: Record<string, boolean>}>('/regions/');

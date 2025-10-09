@@ -179,7 +179,7 @@ function App() {
                     fontSize: '1.1rem'
                   }}
                 >
-                  Cloud Inventory AI Assistant
+                  Cloud Inventory AI Agent
                 </Typography>
               </Box>
             </Box>

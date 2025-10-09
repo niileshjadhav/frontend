@@ -8,7 +8,6 @@ import {
   MenuItem,
   FormControl,
   Button,
-  Chip,
   Alert,
   CircularProgress
 } from '@mui/material';
@@ -457,45 +456,6 @@ const RegionPanel: React.FC<RegionPanelProps> = ({
               </Box>
             </Box>
           )}
-
-          {/* Status Display */}
-          <Box>
-            <Typography variant="subtitle2" sx={{ 
-              mb: 1.5, 
-              fontWeight: 600, 
-              color: '#374151',
-              fontSize: '0.875rem'
-            }}>
-              Connection Status
-            </Typography>
-            <Box display="flex" flexWrap="wrap" gap={1}>
-              {availableRegions.map((region) => (
-                <Chip
-                  key={region}
-                  label={region.toUpperCase()}
-                  sx={{
-                    fontSize: '0.75rem',
-                    height: '28px',
-                    borderRadius: '14px',
-                    fontWeight: 600,
-                    backgroundColor: regionStatus[region] 
-                      ? '#00A9CE' 
-                      : 'rgba(148, 163, 184, 0.1)',
-                    color: regionStatus[region] ? 'white' : 'black',
-                    border: `1px solid ${regionStatus[region] ? '#00A9CE' : '#cbd5e1'}`,
-                    '&:hover': {
-                      transform: 'translateY(-1px)',
-                      boxShadow: regionStatus[region] 
-                        ? '0 4px 12px rgba(0, 169, 206, 0.15)'
-                        : '0 4px 12px rgba(0, 0, 0, 0.08)',
-                    },
-                    transition: 'all 0.2s ease-in-out',
-                  }}
-                  variant="outlined"
-                />
-              ))}
-            </Box>
-          </Box>
         </Box>
       </CardContent>
     </Card>

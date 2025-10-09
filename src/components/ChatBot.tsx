@@ -115,7 +115,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
           : 'Please select and connect to a region to get started';
 
       addBotMessage({
-        response: `Hello ${userId}! I'm your Cloud Inventory assistant. As a ${userRole}, ${roleCapabilities}. ${connectionMessage}.`,
+        response: `Hello ${userId}! I'm your Cloud Inventory agent. As a ${userRole}, ${roleCapabilities}. ${connectionMessage}.`,
         requires_confirmation: false,
       });
     } finally {
@@ -162,8 +162,8 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
       
       addBotMessage({
         response: selectedRegion 
-          ? `⚠️ Region ${selectedRegion} is selected but not connected. Please connect to the region first to perform database operations.`
-          : '⚠️ No region is connected. Please select and connect to a region first to perform database operations.',
+          ? `Region ${selectedRegion} is selected but not connected. Please connect to the region first to perform database operations.`
+          : 'No region is connected. Please select and connect to a region first to perform database operations.',
         requires_confirmation: false,
       });
       return;
@@ -200,6 +200,49 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
     setTimeout(() => {
       inputRef.current?.focus();
     }, 0);
+  };
+
+  const handleDirectConfirmation = async (
+    operation: string, 
+    confirmed: boolean,
+    operationData: any
+  ) => {
+    if (!selectedRegion) {
+      addBotMessage({
+        response: 'No region selected. Please select a region first.',
+        requires_confirmation: false,
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    
+    // Add user message showing what they clicked
+    const actionText = confirmed 
+      ? `CONFIRM ${operation}` 
+      : 'CANCEL';
+    addUserMessage(actionText);
+
+    try {
+      const confirmationRequest = {
+        operation: operation,
+        table: operationData.table || '',
+        region: selectedRegion,
+        filters: operationData.filters || {},
+        confirmed: confirmed
+      };
+
+      const response = await apiService.confirmOperation(confirmationRequest);
+      addBotMessage(response);
+    } catch (error) {
+      console.error('Error sending confirmation:', error);
+      addBotMessage({
+        response: `Sorry, I encountered an error: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`,
+        requires_confirmation: false,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
 
@@ -265,13 +308,13 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
           >
             <img 
               src="/cloud_bot_white.svg" 
-              alt="AI Assistant" 
+              alt="Cloud Inventory AI Agent" 
               style={{ width: 48, height: 48 }}
             />
           </Box>
           <Box sx={{ flexGrow: 1 }}>
             <Typography variant="h6" component="h2" sx={{ fontWeight: 700, mb: 0.5 }}>
-              AI Cloud Assistant
+              Cloud Inventory AI Agent 
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               {selectedRegion ? (
@@ -454,6 +497,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                           <StructuredContentRenderer 
                             content={message.structuredContent} 
                             onSuggestionClick={handleSuggestionClick}
+                            onDirectConfirmation={handleDirectConfirmation}
                           />
                         </Box>
                       </>
@@ -647,28 +691,6 @@ export const ChatBot: React.FC<ChatBotProps> = ({ userId, userRole, selectedRegi
                 clickable
                 onClick={() => handleSuggestionClick("Show table statistics")}
                 sx={{ 
-                  fontSize: '0.75rem',
-                  height: '28px',
-                  borderRadius: '14px',
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  border: '1px solid rgba(0, 169, 206, 0.3)',
-                  color: 'text.primary',
-                  backdropFilter: 'blur(10px)',
-                  transition: 'all 0.2s ease-in-out',
-                  '&:hover': {
-                    background: 'rgba(0, 169, 206, 0.1)',
-                    transform: 'translateY(-1px)',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                  }
-                }}
-              />
-              <Chip
-                label="Show jobs statistics"
-                size="small"
-                variant="outlined"
-                clickable
-                onClick={() => handleSuggestionClick("Show jobs statistics")}
-                sx={{
                   fontSize: '0.75rem',
                   height: '28px',
                   borderRadius: '14px',
